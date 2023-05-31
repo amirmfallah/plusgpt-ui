@@ -10,25 +10,20 @@ export default function PaymentError() {
   };
 
   return (
-    <div className="fa h-full">
-      <div className="flex flex-col items-center overflow-y-auto pt-0 text-sm dark:bg-gray-800">
-        <div className="w-1/3 rounded-md bg-gray-50 dark:bg-white/5 p-3 px-6 text-gray-800 dark:text-gray-100 md:flex md:max-w-2xl md:flex-col lg:max-w-3xl h-full">
-          <h1
-            id="landing-title"
-            className="mb-10 ml-auto mr-auto mt-6 flex items-center justify-center gap-2 text-center text-4xl font-semibold sm:mb-16 md:mt-[10vh]"
-          >
-            تراکنش ناموفق
-          </h1>
-          <div className="items-start gap-3.5 text-center md:flex">
-            <h2>{errorMsg(searchParams.get("code"))}</h2>
-          </div>
-          <button
-            onClick={() => navigate("/")}
-            className="btn btn-neutral justify-center gap-3 border-0 md:border w-30"
-          >
-            بازگشت
-          </button>
+    <div className="flex min-h-screen flex-col items-center justify-center bg-white pt-6 sm:pt-0 fa">
+      <div className="mt-6 w-96 overflow-hidden bg-white px-6 py-4 sm:max-w-md sm:rounded-lg">
+        <div className="mb-6 w-full flex flex-row justify-center ">
+          <img src="/assets/logo.svg" alt="plusgpt" width={64} />
         </div>
+        <h1 className="mb-4 text-center text-2xl font-semibold">خطا تراکنش</h1>
+        <h1 className="mb-4 text-center text-xl">
+          {errorMsg(searchParams.get("code"))}
+        </h1>
+        <p className="my-4 text-center text-sm font-light text-gray-700">
+          <a href="/" className="p-1 text-green-500 hover:underline">
+            بازگشت
+          </a>
+        </p>
       </div>
     </div>
   );
