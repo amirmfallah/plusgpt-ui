@@ -1,10 +1,15 @@
-import { useEffect, useState } from 'react';
-import { useRecoilValue, useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { SSE } from '~/data-provider/sse.mjs';
-import createPayload from '~/data-provider/createPayload';
-import { useAbortRequestWithMessage } from '~/data-provider';
-import store from '~/store';
-import { useAuthContext } from '~/hooks/AuthContext';
+import { useEffect, useState } from "react";
+import {
+  useRecoilValue,
+  useRecoilState,
+  useResetRecoilState,
+  useSetRecoilState,
+} from "recoil";
+import { SSE } from "~/data-provider/sse.mjs";
+import createPayload from "~/data-provider/createPayload";
+import { useAbortRequestWithMessage } from "~/data-provider";
+import store from "~/store";
+import { useAuthContext } from "~/hooks/AuthContext";
 
 export default function MessageHandler() {
   const submission = useRecoilValue(store.submission);
@@ -12,12 +17,17 @@ export default function MessageHandler() {
   const setMessages = useSetRecoilState(store.messages);
   const setConversation = useSetRecoilState(store.conversation);
   const resetLatestMessage = useResetRecoilState(store.latestMessage);
-  const { token } = useAuthContext();
+  const { token, userQuery } = useAuthContext();
 
   const { refreshConversations } = store.useConversations();
 
   const messageHandler = (data, submission) => {
-    const { messages, message, initialResponse, isRegenerate = false } = submission;
+    const {
+      messages,
+      message,
+      initialResponse,
+      isRegenerate = false,
+    } = submission;
 
     if (isRegenerate) {
       setMessages([
@@ -26,10 +36,10 @@ export default function MessageHandler() {
           ...initialResponse,
           text: data,
           parentMessageId: message?.overrideParentMessageId,
-          messageId: message?.overrideParentMessageId + '_',
-          submitting: true
+          messageId: message?.overrideParentMessageId + "_",
+          submitting: true,
           // unfinished: true
-        }
+        },
       ]);
     } else {
       setMessages([
@@ -39,10 +49,10 @@ export default function MessageHandler() {
           ...initialResponse,
           text: data,
           parentMessageId: message?.messageId,
-          messageId: message?.messageId + '_',
-          submitting: true
+          messageId: message?.messageId + "_",
+          submitting: true,
           // unfinished: true
-        }
+        },
       ]);
     }
   };
@@ -61,7 +71,9 @@ export default function MessageHandler() {
     setIsSubmitting(false);
 
     // refresh title
-    if (requestMessage.parentMessageId == '00000000-0000-0000-0000-000000000000') {
+    if (
+      requestMessage.parentMessageId == "00000000-0000-0000-0000-000000000000"
+    ) {
       setTimeout(() => {
         refreshConversations();
       }, 2000);
@@ -74,12 +86,17 @@ export default function MessageHandler() {
 
     setConversation((prevState) => ({
       ...prevState,
-      ...conversation
+      ...conversation,
     }));
   };
 
   const createdHandler = (data, submission) => {
-    const { messages, message, initialResponse, isRegenerate = false } = submission;
+    const {
+      messages,
+      message,
+      initialResponse,
+      isRegenerate = false,
+    } = submission;
 
     if (isRegenerate)
       setMessages([
@@ -87,9 +104,9 @@ export default function MessageHandler() {
         {
           ...initialResponse,
           parentMessageId: message?.overrideParentMessageId,
-          messageId: message?.overrideParentMessageId + '_',
-          submitting: true
-        }
+          messageId: message?.overrideParentMessageId + "_",
+          submitting: true,
+        },
       ]);
     else
       setMessages([
@@ -98,15 +115,15 @@ export default function MessageHandler() {
         {
           ...initialResponse,
           parentMessageId: message?.messageId,
-          messageId: message?.messageId + '_',
-          submitting: true
-        }
+          messageId: message?.messageId + "_",
+          submitting: true,
+        },
       ]);
 
     const { conversationId } = message;
     setConversation((prevState) => ({
       ...prevState,
-      conversationId
+      conversationId,
     }));
     resetLatestMessage();
   };
@@ -122,7 +139,9 @@ export default function MessageHandler() {
     setIsSubmitting(false);
 
     // refresh title
-    if (requestMessage.parentMessageId == '00000000-0000-0000-0000-000000000000') {
+    if (
+      requestMessage.parentMessageId == "00000000-0000-0000-0000-000000000000"
+    ) {
       setTimeout(() => {
         refreshConversations();
       }, 2000);
@@ -135,18 +154,18 @@ export default function MessageHandler() {
 
     setConversation((prevState) => ({
       ...prevState,
-      ...conversation
+      ...conversation,
     }));
   };
 
   const errorHandler = (data, submission) => {
     const { messages, message } = submission;
 
-    console.log('Error:', data);
+    console.log("Error:", data);
     const errorResponse = {
       ...data,
       error: true,
-      parentMessageId: message?.messageId
+      parentMessageId: message?.messageId,
     };
     setIsSubmitting(false);
     setMessages([...messages, message, errorResponse]);
@@ -158,22 +177,22 @@ export default function MessageHandler() {
     const { endpoint } = submission?.conversation || {};
 
     fetch(`/api/ask/${endpoint}/abort`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        abortKey: conversationId
-      })
+        abortKey: conversationId,
+      }),
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('aborted', data);
+        console.log("aborted", data);
         cancelHandler(data, submission);
       })
       .catch((error) => {
-        console.error('Error aborting request');
+        console.error("Error aborting request");
         console.error(error);
         // errorHandler({ text: 'Error aborting request' }, { ...submission, message });
       });
@@ -190,7 +209,10 @@ export default function MessageHandler() {
 
     const events = new SSE(server, {
       payload: JSON.stringify(payload),
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     events.onmessage = (e) => {
@@ -198,15 +220,17 @@ export default function MessageHandler() {
 
       if (data.final) {
         finalHandler(data, { ...submission, message });
-        console.log('final', data);
+        console.log("final", data);
+        // refetch here
+        userQuery.refetch();
       }
       if (data.created) {
         message = {
           ...data.message,
-          overrideParentMessageId: message?.overrideParentMessageId
+          overrideParentMessageId: message?.overrideParentMessageId,
         };
         createdHandler(data, { ...submission, message });
-        console.log('created', message);
+        console.log("created", message);
       } else {
         let text = data.text || data.response;
         if (data.initial) console.log(data);
@@ -217,13 +241,13 @@ export default function MessageHandler() {
       }
     };
 
-    events.onopen = () => console.log('connection is opened');
+    events.onopen = () => console.log("connection is opened");
 
     events.oncancel = () =>
       abortConversation(message?.conversationId || submission?.conversationId);
 
     events.onerror = function (e) {
-      console.log('error in opening conn.');
+      console.log("error in opening conn.");
       events.close();
 
       const data = JSON.parse(e.data);
@@ -239,7 +263,7 @@ export default function MessageHandler() {
       events.close();
       // setSource(null);
       if (isCancelled) {
-        const e = new Event('cancel');
+        const e = new Event("cancel");
         events.dispatchEvent(e);
       }
       setIsSubmitting(false);

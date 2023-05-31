@@ -185,9 +185,10 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       error,
       login,
       logout,
+      userQuery,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [user, isLoading, error, isAuthenticated, token]
+    [user, isLoading, error, isAuthenticated, token, user]
   );
 
   return (
