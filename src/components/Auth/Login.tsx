@@ -27,18 +27,18 @@ function Login() {
     import.meta.env.VITE_SHOW_GOOGLE_LOGIN_OPTION === "true";
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-white pt-6 sm:pt-0">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-white pt-6 sm:pt-0 fa">
       <div className="mt-6 w-96 overflow-hidden bg-white px-6 py-4 sm:max-w-md sm:rounded-lg">
-        <h1 className="mb-4 text-center text-3xl font-semibold">
-          Welcome back
+        <h1 className="mb-4 text-center text-3xl font-semibold">خوش آمدید</h1>
+        <h1 className="my-5 text-center text-sm ">
+          برای دسترسی به تمام امکانات پلاس GPT وارد شودید
         </h1>
         {error && (
           <div
             className="relative mt-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
             role="alert"
           >
-            Unable to login with the information provided. Please check your
-            credentials and try again.
+            نتونستیم اطلاعات شما را پیدا کنیم :(
           </div>
         )}
         <form
@@ -55,18 +55,19 @@ function Login() {
                 autoComplete="phone"
                 aria-label="phone"
                 {...register("phone", {
-                  required: "phone is required",
+                  required: "شماره تلفن ضروری است",
                   minLength: {
                     value: 11,
-                    message: "phone must be at least 11 characters",
+                    message: "طول شماره تلفن باید ۱۱ کاراکتر باشد",
                   },
                   maxLength: {
                     value: 11,
-                    message: "phone should not be longer than 11 characters",
+                    message: "طول شماره تلفن باید ۱۱ کاراکتر باشد",
                   },
                   pattern: {
                     value: /^09\d{9}$/,
-                    message: "You must enter a valid phone address",
+                    message:
+                      "شماره تلفن معتبر نیست. از کی‌بورد انگلیسی استفاده کنید. ",
                   },
                 })}
                 aria-invalid={!!errors.phone}
@@ -77,7 +78,7 @@ function Login() {
                 htmlFor="phone"
                 className="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
               >
-                Phone Number
+                شماره موبایل
               </label>
             </div>
             {errors.phone && (
@@ -95,14 +96,14 @@ function Login() {
                 autoComplete="current-password"
                 aria-label="Password"
                 {...register("password", {
-                  required: "Password is required",
+                  required: "رمز عبور ضروری است",
                   minLength: {
                     value: 8,
-                    message: "Password must be at least 8 characters",
+                    message: "رمز عبور حداقل باید ۸ کاراکتر باشد",
                   },
                   maxLength: {
                     value: 40,
-                    message: "Password must be less than 40 characters",
+                    message: "رمز عبور حداقل باید حداکثر ۴۰ کاراکتر باشد",
                   },
                 })}
                 aria-invalid={!!errors.password}
@@ -113,7 +114,7 @@ function Login() {
                 htmlFor="password"
                 className="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
               >
-                Password
+                رمز عبور
               </label>
             </div>
 
@@ -128,7 +129,7 @@ function Login() {
             href="/forgot-password"
             className="text-sm text-green-500 hover:underline"
           >
-            Forgot Password?
+            رمز عبور را فراموش کرده‌اید؟
           </a>
           <div className="mt-6">
             <button
@@ -136,15 +137,15 @@ function Login() {
               type="submit"
               className="w-full transform rounded-sm bg-green-500 px-4 py-3 tracking-wide text-white transition-colors duration-200 hover:bg-green-600 focus:bg-green-600 focus:outline-none"
             >
-              Continue
+              ادامه
             </button>
           </div>
         </form>
         <p className="my-4 text-center text-sm font-light text-gray-700">
           {" "}
-          Don't have an account?{" "}
+          هنوز ثبت نام نکردی؟{" "}
           <a href="/register" className="p-1 text-green-500 hover:underline">
-            Sign up
+            ثبت نام{" "}
           </a>
         </p>
         {showGoogleLogin && (

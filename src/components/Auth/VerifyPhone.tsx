@@ -171,6 +171,16 @@ function Verify() {
             ? "ارسال مجدد"
             : `ارسال مجدد تا ${timeLeft} ثانیه دیگر`}
         </button>
+        <p className="my-4 text-center text-sm font-light text-gray-700">
+          {" "}
+          اطلاعات اشتباه است؟{" "}
+          <a
+            href="/register"
+            className="p-1 font-medium text-green-500 hover:underline"
+          >
+            ثبت نام مجدد
+          </a>
+        </p>
       </div>
     </div>
   );
