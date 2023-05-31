@@ -59,10 +59,7 @@ const router = createBrowserRouter([
         path: "login",
         element: <Login />,
       },
-      {
-        path: "plans",
-        element: <Plans />,
-      },
+
       {
         path: "plans/callback",
         element: <PaymentError />,
@@ -82,6 +79,10 @@ const router = createBrowserRouter([
           {
             path: "search/:query?",
             element: <Search />,
+          },
+          {
+            path: "plans",
+            element: <Plans />,
           },
         ],
       },
