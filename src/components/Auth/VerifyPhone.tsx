@@ -54,6 +54,7 @@ function Verify() {
         setPending(false);
         if (error.response.status == 400)
           setError("کد فعال سازی برای شما یکبار ارسال شده است");
+        else setError("در هنگام ارسال کد فعال سازی خطای داخلی رخ داد");
         setSuccess(undefined);
       },
     });
@@ -163,7 +164,8 @@ function Verify() {
         </form>
         <button
           aria-label="Sign in"
-          className="w-full transform rounded-sm bg-green-500 my-4 px-4 py-3 tracking-wide text-white transition-colors duration-200 hover:bg-green-600 focus:bg-green-600 focus:outline-none btn-neutral"
+          className="btn btn-neutral justify-center border-0 md:border w-full mt-4 rounded-sm"
+          style={{ padding: 12 }}
           onClick={() => {
             resend();
             setTimeLeft(120);
