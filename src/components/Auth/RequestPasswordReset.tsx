@@ -19,12 +19,11 @@ function RequestPasswordReset() {
     requestPasswordReset.mutate(data, {
       onSuccess: (data) => {
         setSuccess(true);
+        setRequestError(false);
       },
       onError: () => {
         setRequestError(true);
-        setTimeout(() => {
-          setRequestError(false);
-        }, 5000);
+        setSuccess(false);
       },
     });
   };
@@ -38,13 +37,16 @@ function RequestPasswordReset() {
         <h1 className="mb-4 text-center text-3xl font-semibold">
           بازیابی رمز عبور{" "}
         </h1>
+        <h1 className="mb-4 text-center text-sm text-gray-600">
+          با وارد کردن آدرس ایمیل خود پیامی حاوی لینک بازیابی رمز عبور به همراه
+          آموزش برایتان ارسال می‌شود.
+        </h1>
         {success && (
           <div
             className="relative mt-4 rounded border border-green-400 bg-green-100 px-4 py-3 text-green-700"
             role="alert"
           >
-            An email has been sent with instructions on how to reset your
-            password.
+            ایمیل بازیابی با موفقیت ارسال شد
           </div>
         )}
         {requestError && (
@@ -52,8 +54,7 @@ function RequestPasswordReset() {
             className="relative mt-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
             role="alert"
           >
-            There was a problem resetting your password. There was no user found
-            with the email address provided. Please try again.
+            در هنگام ارسال ایمیل بازیابی مشکلی پیش آمده است. دوباره امتحان کنید.
           </div>
         )}
         <form
@@ -70,18 +71,18 @@ function RequestPasswordReset() {
                 autoComplete="off"
                 aria-label="Email"
                 {...register("email", {
-                  required: "Email is required",
+                  required: "ایمیل ضروری است",
                   minLength: {
                     value: 3,
-                    message: "Email must be at least 6 characters",
+                    message: "ایمیل حداقل باید ۶ حرف باشد",
                   },
                   maxLength: {
                     value: 120,
-                    message: "Email should not be longer than 120 characters",
+                    message: "ایمیل حداکثر باید ۱۲۰ حرف باشد",
                   },
                   pattern: {
                     value: /\S+@\S+\.\S+/,
-                    message: "You must enter a valid email address",
+                    message: "ایمیل وارد شده معتبر نمی باشد.",
                   },
                 })}
                 aria-invalid={!!errors.email}
@@ -92,7 +93,7 @@ function RequestPasswordReset() {
                 htmlFor="email"
                 className="absolute right-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
               >
-                Email address
+                ایمیل
               </label>
             </div>
             {errors.email && (
@@ -108,7 +109,7 @@ function RequestPasswordReset() {
               disabled={!!errors.email}
               className="w-full rounded-sm border border-transparent bg-green-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-600 focus:outline-none active:bg-green-500"
             >
-              Continue
+              ادامه
             </button>
           </div>
         </form>

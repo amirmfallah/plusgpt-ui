@@ -26,7 +26,7 @@ function ResetPassword() {
 
   if (resetPassword.isSuccess) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-white pt-6 sm:pt-0">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-white pt-6 sm:pt-0 fa">
         <div className="mt-6 w-96 overflow-hidden bg-white px-6 py-4 sm:max-w-md sm:rounded-lg">
           <div className="mb-6 w-full flex flex-row justify-center ">
             <img src="/assets/logo.svg" alt="plusgpt" width={64} />
@@ -38,38 +38,40 @@ function ResetPassword() {
             className="relative mb-8 mt-4 rounded border border-green-400 bg-green-100 px-4 py-3 text-center text-green-700"
             role="alert"
           >
-            You may now login with your new password.
+            رمز عبور با موفقیت به روز شد. با رمزعبور جدید وارد شوید.
           </div>
           <button
             onClick={() => navigate("/login")}
             aria-label="Sign in"
             className="w-full transform rounded-sm bg-green-500 px-4 py-3 tracking-wide text-white transition-colors duration-200 hover:bg-green-600 focus:bg-green-600 focus:outline-none"
           >
-            Continue
+            ادامه
           </button>
         </div>
       </div>
     );
   } else {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-white pt-6 sm:pt-0">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-white pt-6 sm:pt-0 fa">
         <div className="mt-6 w-96 overflow-hidden bg-white px-6 py-4 sm:max-w-md sm:rounded-lg">
+          <div className="mb-6 w-full flex flex-row justify-center ">
+            <img src="/assets/logo.svg" alt="plusgpt" width={64} />
+          </div>
           <h1 className="mb-4 text-center text-3xl font-semibold">
-            Reset your password
+            تغییر رمز عبور
           </h1>
           {resetError && (
             <div
               className="relative mt-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
               role="alert"
             >
-              This password reset token is no longer valid.{" "}
+              لینک ارسال شده منقضی شده است. .{" "}
               <a
                 className="font-semibold text-green-600 hover:underline"
                 href="/forgot-password"
               >
-                Click here
+                دوباره تلاش کنید
               </a>{" "}
-              to try again.
             </div>
           )}
           <form
@@ -102,14 +104,14 @@ function ResetPassword() {
                   autoComplete="current-password"
                   aria-label="Password"
                   {...register("password", {
-                    required: "Password is required",
+                    required: "رمز عبور ضروری است",
                     minLength: {
                       value: 8,
-                      message: "Password must be at least 8 characters",
+                      message: "رمز عبور حداقل باید ۸ کاراکتر باشد",
                     },
                     maxLength: {
                       value: 40,
-                      message: "Password must be less than 40 characters",
+                      message: "رمز عبور حداقل باید حداکثر ۴۰ کاراکتر باشد",
                     },
                   })}
                   aria-invalid={!!errors.password}
@@ -120,7 +122,7 @@ function ResetPassword() {
                   htmlFor="password"
                   className="absolute right-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
                 >
-                  Password
+                  رمزعبور جدید
                 </label>
               </div>
 
@@ -144,7 +146,7 @@ function ResetPassword() {
                   }}
                   {...register("confirm_password", {
                     validate: (value) =>
-                      value === password || "Passwords do not match",
+                      value === password || "رمز عبور و تکرار آن شباهت ندارند",
                   })}
                   aria-invalid={!!errors.confirm_password}
                   className="peer block w-full appearance-none rounded-t-md border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-sm text-gray-900 focus:border-green-500 focus:outline-none focus:ring-0"
@@ -154,7 +156,7 @@ function ResetPassword() {
                   htmlFor="confirm_password"
                   className="absolute right-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
                 >
-                  Confirm Password
+                  تکرار رمزعبور جدید
                 </label>
               </div>
               {errors.confirm_password && (
@@ -183,7 +185,7 @@ function ResetPassword() {
                 aria-label="Submit registration"
                 className="w-full transform rounded-sm bg-green-500 px-4 py-3 tracking-wide text-white transition-colors duration-200 hover:bg-green-600 focus:bg-green-600 focus:outline-none"
               >
-                Continue
+                ادامه
               </button>
             </div>
           </form>

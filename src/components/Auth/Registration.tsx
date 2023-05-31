@@ -47,7 +47,7 @@ function Registration() {
           <img src="/assets/logo.svg" alt="plusgpt" width={64} />
         </div>
         <h1 className="mb-4 text-center text-3xl font-semibold">ثبت نام</h1>
-        <h1 className="my-5 text-center text-sm ">
+        <h1 className="my-5 text-center text-sm text-gray-600text-gray-600">
           برای دسترسی به تمام امکانات پلاس GPT ثبت نام کنید
         </h1>
         {error && (

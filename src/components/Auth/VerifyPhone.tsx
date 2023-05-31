@@ -90,7 +90,7 @@ function Verify() {
         <h1 className="mb-4 text-center text-3xl font-semibold">
           فعال سازی حساب کاربری
         </h1>
-        <h2 className="my-5 text-center text-sm ">
+        <h2 className="my-5 text-center text-sm text-gray-600">
           هم اکنون برای شما کد فعال سازی پیامک می‌شود.
         </h2>
         {error && (
