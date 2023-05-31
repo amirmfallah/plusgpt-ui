@@ -11,6 +11,7 @@ import { useAuthContext } from "~/hooks/AuthContext";
 
 function Verify() {
   const [error, setError] = useState<string | undefined>();
+  const [pending, setPending] = useState<boolean | undefined>(false);
   const [success, setSuccess] = useState<string | undefined>();
   const { user } = useAuthContext();
   const navigate = useNavigate();
@@ -32,7 +33,8 @@ function Verify() {
         navigate("/login");
       },
       onError: (error) => {
-        setError(error.message);
+        if (error.response.status == 404) setError("کد وارد شده اشتباه است");
+
         setSuccess("");
       },
     });
@@ -42,16 +44,16 @@ function Verify() {
     if (timeLeft != 0) {
       return;
     }
+    setError("");
     sendOtp.mutate(undefined, {
       onSuccess: () => {
-        console.log("succcccc");
-        setSuccess(
-          `A text message has been sent to ${user.phone} with verification code.`
-        );
+        setPending(false);
+        setSuccess(`پیامک حاوی اطلاعات به شماره ${user.phone} ارسال شد`);
       },
       onError: (error) => {
-        console.log(error.message);
-        setError(error.message);
+        setPending(false);
+        if (error.response.status == 400)
+          setError("کد فعال سازی برای شما یکبار ارسال شده است");
         setSuccess(undefined);
       },
     });
@@ -59,10 +61,10 @@ function Verify() {
   const [timeLeft, setTimeLeft] = useState<number>(0);
 
   useEffect(() => {
-    console.log(timeLeft);
     if (timeLeft != 0) return;
     if (!user) return;
-
+    if (pending) return;
+    setPending(true);
     resend();
     setTimeLeft(120);
   }, [user]);
@@ -72,31 +74,25 @@ function Verify() {
       console.log("TIME LEFT IS 0");
       setTimeLeft(0);
     }
-
-    // exit early when we reach 0
     if (!timeLeft) return;
-
-    // save intervalId to clear the interval when the
-    // component re-renders
     const intervalId = setInterval(() => {
       setTimeLeft(timeLeft - 1);
     }, 1000);
-
-    // clear interval on re-render to avoid memory leaks
     return () => clearInterval(intervalId);
-    // add timeLeft as a dependency to re-rerun the effect
-    // when we update it
   }, [timeLeft]);
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-white pt-6 sm:pt-0">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-white pt-6 sm:pt-0 fa">
       <div className="mt-6 w-96 overflow-hidden bg-white px-6 py-4 sm:max-w-md sm:rounded-lg">
         <h1 className="mb-4 text-center text-3xl font-semibold">
-          Verify Phone Number
+          فعال سازی حساب کاربری
         </h1>
+        <h2 className="my-5 text-center text-sm ">
+          هم اکنون برای شما کد فعال سازی پیامک می‌شود.
+        </h2>
         {error && (
           <div
-            className="relative mt-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
+            className="relative mt-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700 fa"
             role="alert"
           >
             {error}
@@ -123,14 +119,14 @@ function Verify() {
                 id="code"
                 aria-label="Code"
                 {...register("code", {
-                  required: "Code is required",
+                  required: "این فیلد ضروری می‌باشد",
                   minLength: {
                     value: 5,
-                    message: "Code must be at least 5 characters",
+                    message: "طول کد فعال‌ سازی ۵ کاراکتر می‌باشد",
                   },
                   maxLength: {
                     value: 5,
-                    message: "Code must be less than 40 characters",
+                    message: "طول کد فعال‌ سازی ۵ کاراکتر می‌باشد",
                   },
                 })}
                 aria-invalid={!!errors.code}
@@ -141,7 +137,7 @@ function Verify() {
                 htmlFor="code"
                 className="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
               >
-                Code
+                کد فعال سازی
               </label>
             </div>
 
@@ -158,7 +154,7 @@ function Verify() {
               type="submit"
               className="w-full transform rounded-sm bg-green-500 px-4 py-3 tracking-wide text-white transition-colors duration-200 hover:bg-green-600 focus:bg-green-600 focus:outline-none"
             >
-              Continue
+              ادامه
             </button>
           </div>
         </form>
@@ -171,7 +167,9 @@ function Verify() {
           }}
           disabled={timeLeft != 0}
         >
-          {timeLeft == 0 ? "Resend" : timeLeft}
+          {timeLeft == 0
+            ? "ارسال مجدد"
+            : `ارسال مجدد تا ${timeLeft} ثانیه دیگر`}
         </button>
       </div>
     </div>
