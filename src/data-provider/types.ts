@@ -191,7 +191,7 @@ export type TSearchMessageTreeNode = {};
 export type TRegisterUser = {
   name: string;
   email: string;
-  username: string;
+  phone: string;
   password: string;
 };
 

@@ -41,18 +41,21 @@ function Registration() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-white pt-6 sm:pt-0">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-white pt-6 sm:pt-0 fa">
       <div className="mt-6 w-96 overflow-hidden bg-white px-6 py-4 sm:max-w-md sm:rounded-lg">
-        <h1 className="mb-4 text-center text-3xl font-semibold">
-          Create your account
+        <div className="mb-6 w-full flex flex-row justify-center ">
+          <img src="/assets/logo.svg" alt="plusgpt" width={64} />
+        </div>
+        <h1 className="mb-4 text-center text-3xl font-semibold">ثبت نام</h1>
+        <h1 className="my-5 text-center text-sm ">
+          برای دسترسی به تمام امکانات پلاس GPT ثبت نام کنید
         </h1>
         {error && (
           <div
             className="relative mt-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
             role="alert"
           >
-            There was an error attempting to register your account. Please try
-            again. {errorMessage}
+            در هنگام ثبت نام مشکلی پیش آمد. {errorMessage}
           </div>
         )}
         <form
@@ -74,14 +77,14 @@ function Registration() {
                   return false;
                 }}
                 {...register("name", {
-                  required: "Name is required",
+                  required: "نام ضروری است",
                   minLength: {
                     value: 3,
-                    message: "Name must be at least 3 characters",
+                    message: "نام حداقل باید ۳ حرف باشد",
                   },
                   maxLength: {
                     value: 80,
-                    message: "Name must be less than 80 characters",
+                    message: "نام حداکثر باید ۸۰ حرف باشد",
                   },
                 })}
                 aria-invalid={!!errors.name}
@@ -90,9 +93,9 @@ function Registration() {
               ></input>
               <label
                 htmlFor="name"
-                className="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
+                className="absolute right-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
               >
-                Full Name
+                نام
               </label>
             </div>
 
@@ -106,60 +109,23 @@ function Registration() {
           <div className="mb-2">
             <div className="relative">
               <input
-                type="text"
-                id="username"
-                aria-label="Username"
-                {...register("username", {
-                  required: "Username is required",
-                  minLength: {
-                    value: 3,
-                    message: "Username must be at least 3 characters",
-                  },
-                  maxLength: {
-                    value: 20,
-                    message: "Username must be less than 20 characters",
-                  },
-                })}
-                aria-invalid={!!errors.username}
-                className="peer block w-full appearance-none rounded-t-md border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-sm text-gray-900 focus:border-green-500 focus:outline-none focus:ring-0"
-                placeholder=" "
-                autoComplete="off"
-              ></input>
-              <label
-                htmlFor="username"
-                className="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
-              >
-                Username
-              </label>
-            </div>
-
-            {errors.username && (
-              <span role="alert" className="mt-1 text-sm text-red-600">
-                {/* @ts-ignore */}
-                {errors.username.message}
-              </span>
-            )}
-          </div>
-          <div className="mb-2">
-            <div className="relative">
-              <input
                 type="email"
                 id="email"
                 autoComplete="email"
                 aria-label="Email"
                 {...register("email", {
-                  required: "Email is required",
+                  required: "ایمیل ضروری است",
                   minLength: {
                     value: 3,
-                    message: "Email must be at least 6 characters",
+                    message: "ایمیل حداقل باید ۶ حرف باشد",
                   },
                   maxLength: {
                     value: 120,
-                    message: "Email should not be longer than 120 characters",
+                    message: "ایمیل حداکثر باید ۱۲۰ حرف باشد",
                   },
                   pattern: {
                     value: /\S+@\S+\.\S+/,
-                    message: "You must enter a valid email address",
+                    message: "ایمیل وارد شده معتبر نمی باشد.",
                   },
                 })}
                 aria-invalid={!!errors.email}
@@ -168,9 +134,9 @@ function Registration() {
               ></input>
               <label
                 htmlFor="email"
-                className="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
+                className="absolute right-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
               >
-                Email
+                ایمیل
               </label>
             </div>
             {errors.email && (
@@ -188,18 +154,19 @@ function Registration() {
                 autoComplete="phone"
                 aria-label="Phone"
                 {...register("phone", {
-                  required: "Phone number is required",
+                  required: "شماره موبایل ضروری است",
                   minLength: {
                     value: 11,
-                    message: "Phone number must be at least 11 characters",
+                    message: "شماره موبایل باید ۱۱ حرف باشد",
                   },
                   maxLength: {
                     value: 11,
-                    message: "Phone number not be longer than 120 characters",
+                    message: "شماره موبایل باید ۱۱ حرف باشد",
                   },
                   pattern: {
                     value: /^09\d{9}$/,
-                    message: "You must enter a valid email address",
+                    message:
+                      "شماره تلفن معتبر نیست. از کی‌بورد انگلیسی استفاده کنید. ",
                   },
                 })}
                 aria-invalid={!!errors.phone}
@@ -208,9 +175,9 @@ function Registration() {
               ></input>
               <label
                 htmlFor="phone"
-                className="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
+                className="absolute right-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
               >
-                Phone Number
+                شماره موبایل
               </label>
             </div>
             {errors.phone && (
@@ -228,14 +195,14 @@ function Registration() {
                 autoComplete="current-password"
                 aria-label="Password"
                 {...register("password", {
-                  required: "Password is required",
+                  required: "رمز عبور ضروری است",
                   minLength: {
                     value: 8,
-                    message: "Password must be at least 8 characters",
+                    message: "رمز عبور حداقل باید ۸ کاراکتر باشد",
                   },
                   maxLength: {
                     value: 40,
-                    message: "Password must be less than 40 characters",
+                    message: "رمز عبور حداقل باید حداکثر ۴۰ کاراکتر باشد",
                   },
                 })}
                 aria-invalid={!!errors.password}
@@ -244,9 +211,9 @@ function Registration() {
               ></input>
               <label
                 htmlFor="password"
-                className="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
+                className="absolute right-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
               >
-                Password
+                رمز عبور
               </label>
             </div>
 
@@ -270,7 +237,7 @@ function Registration() {
                 }}
                 {...register("confirm_password", {
                   validate: (value) =>
-                    value === password || "Passwords do not match",
+                    value === password || "رمز عبور و تکرار آن شباهت ندارند",
                 })}
                 aria-invalid={!!errors.confirm_password}
                 className="peer block w-full appearance-none rounded-t-md border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-sm text-gray-900 focus:border-green-500 focus:outline-none focus:ring-0"
@@ -278,9 +245,9 @@ function Registration() {
               ></input>
               <label
                 htmlFor="confirm_password"
-                className="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
+                className="absolute right-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
               >
-                Confirm Password
+                تکرار رمز عبور
               </label>
             </div>
 
@@ -305,18 +272,18 @@ function Registration() {
               aria-label="Submit registration"
               className="w-full transform rounded-sm bg-green-500 px-4 py-3 tracking-wide text-white transition-colors duration-200 hover:bg-green-600 focus:bg-green-600 focus:outline-none"
             >
-              Continue
+              ادامه
             </button>
           </div>
         </form>
         <p className="my-4 text-center text-sm font-light text-gray-700">
           {" "}
-          Already have an account?{" "}
+          آیا حساب کاربری قبلا ساختی؟{" "}
           <a
             href="/login"
             className="p-1 font-medium text-green-500 hover:underline"
           >
-            Login
+            ورود
           </a>
         </p>
         {showGoogleLogin && (

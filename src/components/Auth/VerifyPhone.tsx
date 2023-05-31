@@ -84,6 +84,9 @@ function Verify() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-white pt-6 sm:pt-0 fa">
       <div className="mt-6 w-96 overflow-hidden bg-white px-6 py-4 sm:max-w-md sm:rounded-lg">
+        <div className="mb-6 w-full flex flex-row justify-center ">
+          <img src="/assets/logo.svg" alt="plusgpt" width={64} />
+        </div>
         <h1 className="mb-4 text-center text-3xl font-semibold">
           فعال سازی حساب کاربری
         </h1>
@@ -135,7 +138,7 @@ function Verify() {
               ></input>
               <label
                 htmlFor="code"
-                className="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
+                className="absolute right-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
               >
                 کد فعال سازی
               </label>
