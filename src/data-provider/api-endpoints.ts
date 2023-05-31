@@ -51,41 +51,53 @@ export const tokenizer = () => {
 };
 
 export const login = () => {
-  return '/api/auth/login';
+  return "/api/auth/login";
 };
 
 export const logout = () => {
-  return '/api/auth/logout';
+  return "/api/auth/logout";
 };
 
 export const register = () => {
-  return '/api/auth/register';
+  return "/api/auth/register";
 };
 
 export const loginFacebook = () => {
-  return '/api/auth/facebook';
+  return "/api/auth/facebook";
 };
 
 export const loginGoogle = () => {
-  return '/api/auth/google';
+  return "/api/auth/google";
 };
 
 export const refreshToken = () => {
-  return '/api/auth/refresh';
+  return "/api/auth/refresh";
 };
 
 export const requestPasswordReset = () => {
-  return '/api/auth/requestPasswordReset';
+  return "/api/auth/requestPasswordReset";
 };
 
 export const resetPassword = () => {
-  return '/api/auth/resetPassword';
+  return "/api/auth/resetPassword";
 };
 
 export const getPlans = () => {
-  return '/api/products';
+  return "/api/products";
 };
 
 export const buyPlan = () => {
-  return '/api/payment/buy';
+  return "/api/payment/buy";
+};
+
+export const requestOtp = () => {
+  return "/api/auth/otp";
+};
+
+export const verifyOtp = () => {
+  return "/api/auth/otp/verify";
+};
+
+export const sendOtp = () => {
+  return "/api/auth/otp";
 };

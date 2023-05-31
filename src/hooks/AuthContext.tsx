@@ -5,8 +5,8 @@ import {
   useMemo,
   ReactNode,
   createContext,
-  useContext
-} from 'react';
+  useContext,
+} from "react";
 import {
   TUser,
   TLoginResponse,
@@ -15,9 +15,9 @@ import {
   useLogoutUserMutation,
   useGetUserQuery,
   useRefreshTokenMutation,
-  TLoginUser
-} from '~/data-provider';
-import { useNavigate, useLocation } from 'react-router-dom';
+  TLoginUser,
+} from "~/data-provider";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export type TAuthContext = {
   user: TUser | undefined;
@@ -70,36 +70,46 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const getCookieValue = (key) => {
-    return localStorage.getItem('token');
+    return localStorage.getItem("token");
   };
 
   const login = (data: TLoginUser) => {
     loginUser.mutate(data, {
       onSuccess: (data: TLoginResponse) => {
         const { user, token } = data;
-        localStorage.setItem('token', token);
-        setUserContext({ token, isAuthenticated: true, user, redirect: '/chat/new' });
+        console.log(user);
+        if (!user.phoneVerified) {
+          navigate(`/register/otp?phone=${user.phone}`);
+          return;
+        }
+        localStorage.setItem("token", token);
+        setUserContext({
+          token,
+          isAuthenticated: true,
+          user,
+          redirect: "/chat/new",
+        });
       },
       onError: (error) => {
         setError(error.message);
-      }
+      },
     });
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     logoutUser.mutate(undefined, {
       onSuccess: () => {
         setUserContext({
           token: undefined,
           isAuthenticated: false,
           user: undefined,
-          redirect: '/login'
+          redirect: "/login",
         });
       },
       onError: (error) => {
         setError(error.message);
-      }
+      },
     });
   };
 
@@ -108,21 +118,25 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       setUser(userQuery.data);
     } else if (userQuery.isError) {
       setError(userQuery.error.message);
-      navigate('/login');
+      navigate("/login");
     }
     if (error && isAuthenticated) {
       setError(undefined);
     }
     if (!token || !isAuthenticated) {
-      const tokenFromCookie = getCookieValue('token');
+      const tokenFromCookie = getCookieValue("token");
       console.log(tokenFromCookie);
       if (tokenFromCookie) {
         // debugger;
-        setUserContext({ token: tokenFromCookie, isAuthenticated: true, user: userQuery.data });
+        setUserContext({
+          token: tokenFromCookie,
+          isAuthenticated: true,
+          user: userQuery.data,
+        });
       } else {
-        console.log('asajsojasojso');
+        console.log("asajsojasojso");
 
-        navigate('/login');
+        navigate("/login");
       }
     }
   }, [token, isAuthenticated, userQuery.data, userQuery.isError]);
@@ -162,20 +176,22 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       isLoading,
       error,
       login,
-      logout
+      logout,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [user, isLoading, error, isAuthenticated, token]
   );
 
-  return <AuthContext.Provider value={memoedValue}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={memoedValue}>{children}</AuthContext.Provider>
+  );
 };
 
 const useAuthContext = () => {
   const context = useContext(AuthContext);
 
   if (context === undefined) {
-    throw new Error('useAuthContext should be used inside AuthProvider');
+    throw new Error("useAuthContext should be used inside AuthProvider");
   }
 
   return context;

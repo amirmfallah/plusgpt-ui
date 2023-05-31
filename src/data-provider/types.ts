@@ -43,12 +43,12 @@ export type TSubmission = {
 };
 
 export enum EModelEndpoint {
-  azureOpenAI = 'azureOpenAI',
-  openAI = 'openAI',
-  bingAI = 'bingAI',
-  chatGPT = 'chatGPT',
-  chatGPTBrowser = 'chatGPTBrowser',
-  google = 'google'
+  azureOpenAI = "azureOpenAI",
+  openAI = "openAI",
+  bingAI = "bingAI",
+  chatGPT = "chatGPT",
+  chatGPTBrowser = "chatGPTBrowser",
+  google = "google",
 }
 
 export type TConversation = {
@@ -114,6 +114,8 @@ export type TUser = {
   id: string;
   username: string;
   email: string;
+  phone: string;
+  phoneVerified: boolean;
   name: string;
   avatar: string;
   role: string;
@@ -123,7 +125,7 @@ export type TUser = {
     active: boolean;
     limit: number;
     used: number;
-  }
+  };
 };
 
 export type TGetConversationsResponse = {
@@ -198,6 +200,15 @@ export type TLoginUser = {
   password: string;
 };
 
+export type TVerify = {
+  phone: string;
+  code: string;
+};
+
+export type TSendOTP = {
+  phone: string;
+};
+
 export type TLoginResponse = {
   token: string;
   user: TUser;
@@ -215,9 +226,9 @@ export type TResetPassword = {
 
 export type TBuyPlan = {
   product_id: string;
-}
+};
 
 export type TBuyPlanResponse = {
   uri: string;
   trans_id: string;
-}
+};

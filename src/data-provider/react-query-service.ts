@@ -8,6 +8,8 @@ import {
 } from "@tanstack/react-query";
 import * as t from "./types";
 import * as dataService from "./data-service";
+import { TVerify } from "~/data-provider/types.js";
+import { verifyOtp } from "./api-endpoints";
 
 export enum QueryKeys {
   messages = "messsages",
@@ -343,4 +345,12 @@ export const useGetPlans = (): QueryObserverResult<t.TEndpoints> => {
 
 export const useBuyPlanMutation = (): UseMutationResult<t.TBuyPlanResponse> => {
   return useMutation((payload: t.TBuyPlan) => dataService.buyPlan(payload));
+};
+
+export const useVerifyMutation = (): UseMutationResult<unknown> => {
+  return useMutation((payload: t.TVerify) => dataService.verifyOtp(payload));
+};
+
+export const useSendOtpMutation = (): UseMutationResult<unknown> => {
+  return useMutation((payload: t.TSendOTP) => dataService.sendOtp(payload));
 };

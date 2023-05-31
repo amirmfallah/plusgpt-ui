@@ -1,8 +1,10 @@
-import * as t from './types';
-import request from './request';
-import * as endpoints from './api-endpoints';
+import * as t from "./types";
+import request from "./request";
+import * as endpoints from "./api-endpoints";
 
-export function getConversations(pageNumber: string): Promise<t.TGetConversationsResponse> {
+export function getConversations(
+  pageNumber: string
+): Promise<t.TGetConversationsResponse> {
   return request.get(endpoints.conversations(pageNumber));
 }
 
@@ -11,7 +13,9 @@ export function abortRequestWithMessage(
   abortKey: string,
   message: string
 ): Promise<void> {
-  return request.post(endpoints.abortRequest(endpoint), { arg: { abortKey, message } });
+  return request.post(endpoints.abortRequest(endpoint), {
+    arg: { abortKey, message },
+  });
 }
 
 export function deleteConversation(payload: t.TDeleteConversationRequest) {
@@ -110,4 +114,12 @@ export const getPlans = () => {
 
 export const buyPlan = (payload: t.TBuyPlan) => {
   return request.post(endpoints.buyPlan(), payload);
+};
+
+export const verifyOtp = (payload: t.TVerify) => {
+  return request.post(endpoints.verifyOtp(), payload);
+};
+
+export const sendOtp = (payload: t.TSendOTP) => {
+  return request.post(endpoints.sendOtp(), payload);
 };

@@ -27,6 +27,7 @@ import { useApiErrorBoundary } from "./hooks/ApiErrorBoundaryContext";
 import ApiErrorWatcher from "./components/Auth/ApiErrorWatcher";
 import Plans from "./components/Plans/Plans";
 import PaymentError from "./components/Payment/PaymentError";
+import Verify from "./components/Auth/VerifyPhone";
 
 const AuthLayout = () => (
   <AuthContextProvider>
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: "register",
     element: <Registration />,
+  },
+  {
+    path: "register/otp",
+    element: <Verify />,
   },
   {
     path: "forgot-password",
