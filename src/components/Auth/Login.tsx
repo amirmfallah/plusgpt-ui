@@ -50,40 +50,40 @@ function Login() {
           <div className="mb-2">
             <div className="relative">
               <input
-                type="email"
-                id="email"
-                autoComplete="email"
-                aria-label="Email"
-                {...register("email", {
-                  required: "Email is required",
+                type="phone"
+                id="phone"
+                autoComplete="phone"
+                aria-label="phone"
+                {...register("phone", {
+                  required: "phone is required",
                   minLength: {
-                    value: 3,
-                    message: "Email must be at least 6 characters",
+                    value: 11,
+                    message: "phone must be at least 11 characters",
                   },
                   maxLength: {
-                    value: 120,
-                    message: "Email should not be longer than 120 characters",
+                    value: 11,
+                    message: "phone should not be longer than 11 characters",
                   },
                   pattern: {
-                    value: /\S+@\S+\.\S+/,
-                    message: "You must enter a valid email address",
+                    value: /^09\d{9}$/,
+                    message: "You must enter a valid phone address",
                   },
                 })}
-                aria-invalid={!!errors.email}
+                aria-invalid={!!errors.phone}
                 className="peer block w-full appearance-none rounded-t-md border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-sm text-gray-900 focus:border-green-500 focus:outline-none focus:ring-0"
                 placeholder=" "
               ></input>
               <label
-                htmlFor="email"
+                htmlFor="phone"
                 className="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
               >
-                Email address
+                Phone Number
               </label>
             </div>
-            {errors.email && (
+            {errors.phone && (
               <span role="alert" className="mt-1 text-sm text-red-600">
                 {/* @ts-ignore */}
-                {errors.email.message}
+                {errors.phone.message}
               </span>
             )}
           </div>
