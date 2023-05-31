@@ -41,10 +41,6 @@ const router = createBrowserRouter([
     element: <Registration />,
   },
   {
-    path: "register/otp",
-    element: <Verify />,
-  },
-  {
     path: "forgot-password",
     element: <RequestPasswordReset />,
   },
@@ -55,6 +51,10 @@ const router = createBrowserRouter([
   {
     element: <AuthLayout />,
     children: [
+      {
+        path: "register/otp",
+        element: <Verify />,
+      },
       {
         path: "login",
         element: <Login />,

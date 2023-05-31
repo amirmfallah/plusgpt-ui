@@ -22,6 +22,7 @@ export enum QueryKeys {
   searchResults = "searchResults",
   tokenCount = "tokenCount",
   plans = "plans",
+  otp = "otp",
 }
 
 export const useAbortRequestWithMessage = (): UseMutationResult<
@@ -38,6 +39,10 @@ export const useGetUserQuery = (
   config?: UseQueryOptions<t.TUser>
 ): QueryObserverResult<t.TUser> => {
   return useQuery<t.TUser>([QueryKeys.user], () => dataService.getUser(), {
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+    retry: false,
     ...config,
   });
 };
@@ -352,5 +357,10 @@ export const useVerifyMutation = (): UseMutationResult<unknown> => {
 };
 
 export const useSendOtpMutation = (): UseMutationResult<unknown> => {
-  return useMutation((payload: t.TSendOTP) => dataService.sendOtp(payload));
+  const queryClient = useQueryClient();
+  return useMutation(() => dataService.sendOtp(), {
+    onSuccess: () => {
+      queryClient.invalidateQueries([QueryKeys.otp]);
+    },
+  });
 };

@@ -7,38 +7,28 @@ import {
   useVerifyMutation,
   useSendOtpMutation,
 } from "../../data-provider/react-query-service";
+import { useAuthContext } from "~/hooks/AuthContext";
 
 function Verify() {
-  const [error, setError] = useState();
-  const [success, setSuccess] = useState<string>();
-  const [searchParams, setSearchParams] = useSearchParams();
-
+  const [error, setError] = useState<string | undefined>();
+  const [success, setSuccess] = useState<string | undefined>();
+  const { user } = useAuthContext();
   const navigate = useNavigate();
-  const phone = searchParams.get("phone");
-  useEffect(() => {
-    if (!phone) navigate("/login");
-  }, [phone]);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<TLoginUser>({
-    defaultValues: {
-      phone: phone,
-    },
-  });
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     navigate("/chat/new");
-  //   }
-  // }, [isAuthenticated, navigate]);
+  } = useForm<TVerify>();
+
   const verifyOtp = useVerifyMutation();
   const sendOtp = useSendOtpMutation();
 
   const verify = (data: TVerify) => {
+    console.log(data);
     verifyOtp.mutate(data, {
-      onSuccess: () => {
+      onSuccess: (payload) => {
+        console.log(payload);
         navigate("/login");
       },
       onError: (error) => {
@@ -48,26 +38,34 @@ function Verify() {
     });
   };
 
-  const resend = (data: TSendOTP) => {
+  const resend = () => {
     if (timeLeft != 0) {
       return;
     }
-    sendOtp.mutate(data, {
+    sendOtp.mutate(undefined, {
       onSuccess: () => {
-        setSuccess("A text message has been sent with verification code.");
+        console.log("succcccc");
+        setSuccess(
+          `A text message has been sent to ${user.phone} with verification code.`
+        );
       },
       onError: (error) => {
+        console.log(error.message);
         setError(error.message);
-        setSuccess("");
+        setSuccess(undefined);
       },
     });
   };
   const [timeLeft, setTimeLeft] = useState<number>(0);
 
   useEffect(() => {
-    resend({ phone: "09112475534" });
+    console.log(timeLeft);
+    if (timeLeft != 0) return;
+    if (!user) return;
+
+    resend();
     setTimeLeft(120);
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     if (timeLeft === 0) {
@@ -101,8 +99,7 @@ function Verify() {
             className="relative mt-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
             role="alert"
           >
-            Unable to login with the information provided. Please check your
-            credentials and try again.
+            {error}
           </div>
         )}
         {success && (
@@ -155,17 +152,6 @@ function Verify() {
               </span>
             )}
           </div>
-          <a
-            className={
-              "text-s" + (timeLeft == 0 ? "hover:underline text-green-500" : "")
-            }
-            onClick={() => {
-              resend({ phone: phone });
-              setTimeLeft(120);
-            }}
-          >
-            {timeLeft == 0 ? "Resend" : timeLeft}
-          </a>
           <div className="mt-6">
             <button
               aria-label="Sign in"
@@ -176,6 +162,17 @@ function Verify() {
             </button>
           </div>
         </form>
+        <button
+          aria-label="Sign in"
+          className="w-full transform rounded-sm bg-green-500 my-4 px-4 py-3 tracking-wide text-white transition-colors duration-200 hover:bg-green-600 focus:bg-green-600 focus:outline-none btn-neutral"
+          onClick={() => {
+            resend();
+            setTimeLeft(120);
+          }}
+          disabled={timeLeft != 0}
+        >
+          {timeLeft == 0 ? "Resend" : timeLeft}
+        </button>
       </div>
     </div>
   );

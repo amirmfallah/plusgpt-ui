@@ -27,10 +27,9 @@ function Registration() {
   const password = watch("password");
 
   const onRegisterUserFormSubmit = (data: TRegisterUser) => {
-    console.log(data);
     registerUser.mutate(data, {
       onSuccess: () => {
-        navigate("/register/otp");
+        navigate("/chat/new");
       },
       onError: (error) => {
         setError(true);

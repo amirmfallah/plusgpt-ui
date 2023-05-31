@@ -18,6 +18,7 @@ import {
   TLoginUser,
 } from "~/data-provider";
 import { useNavigate, useLocation } from "react-router-dom";
+import { data } from "../../dist/assets/vendor-b5018b21";
 
 export type TAuthContext = {
   user: TUser | undefined;
@@ -49,7 +50,6 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const loginUser = useLoginUserMutation();
   const logoutUser = useLogoutUserMutation();
   const userQuery = useGetUserQuery({ enabled: !!token });
-  console.log(userQuery);
   const refreshToken = useRefreshTokenMutation();
 
   const location = useLocation();
@@ -58,12 +58,12 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     const { token, isAuthenticated, user, redirect } = userContext;
     if (user) {
       setUser(user);
+      console.log(user);
     }
-    console.log(token);
-    console.log(isAuthenticated);
     setToken(token);
     setTokenHeader(token);
     setIsAuthenticated(isAuthenticated);
+
     if (redirect) {
       navigate(redirect);
     }
@@ -77,11 +77,6 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     loginUser.mutate(data, {
       onSuccess: (data: TLoginResponse) => {
         const { user, token } = data;
-        console.log(user);
-        if (!user.phoneVerified) {
-          navigate(`/register/otp?phone=${user.phone}`);
-          return;
-        }
         localStorage.setItem("token", token);
         setUserContext({
           token,
@@ -89,6 +84,10 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
           user,
           redirect: "/chat/new",
         });
+        if (!user.phoneVerified) {
+          navigate(`/register/otp`);
+          return;
+        }
       },
       onError: (error) => {
         setError(error.message);
@@ -114,9 +113,18 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
+    console.log("hre");
     if (userQuery.data) {
+      console.log("hre1");
+
       setUser(userQuery.data);
+      console.log("1", userQuery.data);
+      if (userQuery.data && !userQuery.data?.phoneVerified) {
+        navigate("/register/otp");
+      }
     } else if (userQuery.isError) {
+      console.log("hre2 ");
+
       setError(userQuery.error.message);
       navigate("/login");
     }
@@ -125,7 +133,6 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     }
     if (!token || !isAuthenticated) {
       const tokenFromCookie = getCookieValue("token");
-      console.log(tokenFromCookie);
       if (tokenFromCookie) {
         // debugger;
         setUserContext({
@@ -133,9 +140,10 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
           isAuthenticated: true,
           user: userQuery.data,
         });
+        if (userQuery.data && !userQuery.data?.phoneVerified) {
+          navigate("/register/otp");
+        }
       } else {
-        console.log("asajsojasojso");
-
         navigate("/login");
       }
     }

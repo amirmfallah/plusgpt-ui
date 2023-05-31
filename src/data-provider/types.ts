@@ -201,7 +201,6 @@ export type TLoginUser = {
 };
 
 export type TVerify = {
-  phone: string;
   code: string;
 };
 
