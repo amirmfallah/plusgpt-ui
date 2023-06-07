@@ -1,13 +1,17 @@
-import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
-import Landing from '../components/ui/Landing';
-import Messages from '../components/Messages';
-import TextChat from '../components/Input';
+import Landing from "../components/ui/Landing";
+import Messages from "../components/Messages";
+import TextChat from "../components/Input";
 
-import store from '~/store';
-import { useGetMessagesByConvoId, useGetConversationByIdMutation } from '~/data-provider';
+import store from "~/store";
+import {
+  useGetMessagesByConvoId,
+  useGetConversationByIdMutation,
+} from "~/data-provider";
+import UploadFile from "~/components/Input/UploadFile.jsx";
 
 export default function Chat() {
   const searchQuery = useRecoilValue(store.searchQuery);
@@ -19,14 +23,17 @@ export default function Chat() {
   const navigate = useNavigate();
 
   //disabled by default, we only enable it when messagesTree is null
-  const messagesQuery = useGetMessagesByConvoId(conversationId, { enabled: false });
-  const getConversationMutation = useGetConversationByIdMutation(conversationId);
+  const messagesQuery = useGetMessagesByConvoId(conversationId, {
+    enabled: false,
+  });
+  const getConversationMutation =
+    useGetConversationByIdMutation(conversationId);
 
   // when conversation changed or conversationId (in url) changed
   useEffect(() => {
     if (conversation === null) {
       // no current conversation, we need to do something
-      if (conversationId === 'new') {
+      if (conversationId === "new") {
         // create new
         newConversation();
       } else if (conversationId) {
@@ -36,24 +43,25 @@ export default function Chat() {
             setConversation(data);
           },
           onError: (error) => {
-            console.error('failed to fetch the conversation');
+            console.error("failed to fetch the conversation");
             console.error(error);
             navigate(`/chat/new`);
             newConversation();
-          }
+          },
         });
         setMessages(null);
       } else {
         navigate(`/chat/new`);
       }
-    } else if (conversation?.conversationId === 'search') {
+    } else if (conversation?.conversationId === "search") {
       // jump to search page
       navigate(`/search/${searchQuery}`);
     } else if (conversation?.conversationId !== conversationId) {
       // conversationId (in url) should always follow conversation?.conversationId, unless conversation is null
       navigate(`/chat/${conversation?.conversationId}`);
     }
-    document.title = conversation?.title || import.meta.env.VITE_APP_TITLE || 'Chat';
+    document.title =
+      conversation?.title || import.meta.env.VITE_APP_TITLE || "Chat";
   }, [conversation, conversationId]);
 
   useEffect(() => {
@@ -66,14 +74,14 @@ export default function Chat() {
     if (messagesQuery.data) {
       setMessages(messagesQuery.data);
     } else if (messagesQuery.isError) {
-      console.error('failed to fetch the messages');
+      console.error("failed to fetch the messages");
       console.error(messagesQuery.error);
       setMessages(null);
     }
   }, [messagesQuery.data, messagesQuery.isError, setMessages]);
 
   // if not a conversation
-  if (conversation?.conversationId === 'search') return null;
+  if (conversation?.conversationId === "search") return null;
   // if conversationId not match
   if (conversation?.conversationId !== conversationId) return null;
   // if conversationId is null
@@ -81,7 +89,11 @@ export default function Chat() {
 
   return (
     <>
-      {conversationId === 'new' && !messagesTree?.length ? <Landing /> : <Messages />}
+      {conversationId === "new" && !messagesTree?.length ? (
+        <Landing />
+      ) : (
+        <Messages />
+      )}
       <TextChat />
     </>
   );

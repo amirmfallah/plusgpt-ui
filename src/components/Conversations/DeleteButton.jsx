@@ -1,12 +1,17 @@
-import { useEffect } from 'react';
-import TrashIcon from '../svg/TrashIcon';
-import CrossIcon from '../svg/CrossIcon';
-import { useRecoilValue } from 'recoil';
-import { useDeleteConversationMutation } from '~/data-provider';
+import { useEffect } from "react";
+import TrashIcon from "../svg/TrashIcon";
+import CrossIcon from "../svg/CrossIcon";
+import { useRecoilValue } from "recoil";
+import { useDeleteConversationMutation } from "~/data-provider";
 
-import store from '~/store';
+import store from "~/store";
 
-export default function DeleteButton({ conversationId, renaming, cancelHandler, retainView }) {
+export default function DeleteButton({
+  conversationId,
+  renaming,
+  cancelHandler,
+  retainView,
+}) {
   const currentConversation = useRecoilValue(store.conversation) || {};
   const { newConversation } = store.useConversation();
   const { refreshConversations } = store.useConversations();
@@ -15,7 +20,8 @@ export default function DeleteButton({ conversationId, renaming, cancelHandler, 
 
   useEffect(() => {
     if (deleteConvoMutation.isSuccess) {
-      if (currentConversation?.conversationId == conversationId) newConversation();
+      if (currentConversation?.conversationId == conversationId)
+        newConversation();
 
       refreshConversations();
       retainView();
@@ -23,7 +29,7 @@ export default function DeleteButton({ conversationId, renaming, cancelHandler, 
   }, [deleteConvoMutation.isSuccess]);
 
   const clickHandler = () => {
-    deleteConvoMutation.mutate({ conversationId, source: 'button' });
+    deleteConvoMutation.mutate({ conversationId, source: "button" });
   };
 
   const handler = renaming ? cancelHandler : clickHandler;
