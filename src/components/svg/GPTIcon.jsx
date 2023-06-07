@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
 export default function GPTIcon({ button = false, menu = false, size = 25 }) {
-  let unit = '41';
+  let unit = "41";
   let height = size;
   let width = size;
-  let boxSize = '6';
+  let boxSize = "6";
   if (button) {
     // unit = '45';
     // boxSize = '4'
