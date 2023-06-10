@@ -123,3 +123,15 @@ export const verifyOtp = (payload: t.TVerify) => {
 export const sendOtp = (payload: t.TSendOTP) => {
   return request.post(endpoints.sendOtp(), payload);
 };
+
+export const getSignedURL = (payload) => {
+  return request.post(endpoints.getSignedURL(), payload);
+};
+
+export const uploadToS3 = (url, payload) => {
+  return request.putS3(url, payload);
+};
+
+export const processFile = (payload) => {
+  return request.post(endpoints.processFile(), payload);
+};

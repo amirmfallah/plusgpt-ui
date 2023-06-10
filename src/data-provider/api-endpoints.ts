@@ -101,3 +101,11 @@ export const verifyOtp = () => {
 export const sendOtp = () => {
   return "/api/auth/otp";
 };
+
+export const getSignedURL = () => {
+  return "/api/s3/sign_url";
+};
+
+export const processFile = () => {
+  return "/api/files/process";
+};

@@ -2,6 +2,11 @@ import React, { useRef, useState } from "react";
 import TrashIcon from "../svg/TrashIcon.jsx";
 import UploadIcon from "../svg/UploadIcon.jsx";
 import RemoveIcon from "../svg/RemoveIcon.jsx";
+import {
+  getSignedURL,
+  uploadToS3,
+  processFile,
+} from "~/data-provider/data-service";
 
 export default function UploadFile() {
   const [dragActive, setDragActive] = useState(false);
@@ -54,7 +59,18 @@ export default function UploadFile() {
     setFile(undefined);
   };
 
-  const uploadFile = () => {};
+  const uploadFile = async () => {
+    const signedUrl = await getSignedURL({
+      contentType: "application/pdf",
+    });
+    const myRenamedFile = new File([file], signedUrl.key);
+    await uploadToS3(signedUrl.uploadURL, myRenamedFile);
+    console.log("uploaded");
+    await processFile({
+      key: signedUrl.key,
+    });
+    console.log(signedUrl);
+  };
 
   return (
     <form
