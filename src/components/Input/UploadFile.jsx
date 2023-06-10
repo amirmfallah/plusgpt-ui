@@ -54,6 +54,8 @@ export default function UploadFile() {
     setFile(undefined);
   };
 
+  const uploadFile = () => {};
+
   return (
     <form
       className={"drop-container fa " + (dragActive ? "drag-active" : "")}
@@ -85,16 +87,16 @@ export default function UploadFile() {
         <div className="before-drop">
           <span>{file.name}</span>
           <div className="flex flex-row gap-2">
+            <button className="btn btn-primary p-1 gap-1" onClick={uploadFile}>
+              <span class="material-symbols-outlined">upload</span>
+              <span>آپلود</span>
+            </button>
             <button
               className="btn btn-secondary p-1  gap-1"
               onClick={deleteFile}
             >
               <span class="material-symbols-outlined">delete</span>
               <span>حذف</span>
-            </button>
-            <button className="btn btn-primary p-1 gap-1" onClick={deleteFile}>
-              <span class="material-symbols-outlined">upload</span>
-              <span>آپلود</span>
             </button>
           </div>
         </div>
