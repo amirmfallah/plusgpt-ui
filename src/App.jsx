@@ -65,6 +65,10 @@ const router = createBrowserRouter([
         element: <PaymentError />,
       },
       {
+        path: "plans",
+        element: <Plans />,
+      },
+      {
         path: "/",
         element: <Root />,
         children: [
@@ -79,10 +83,6 @@ const router = createBrowserRouter([
           {
             path: "search/:query?",
             element: <Search />,
-          },
-          {
-            path: "plans",
-            element: <Plans />,
           },
         ],
       },
