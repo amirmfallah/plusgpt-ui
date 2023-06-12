@@ -1,9 +1,10 @@
-import React from 'react';
-import store from '~/store';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import store from "~/store";
 
 export default function NewChat() {
   const { newConversation } = store.useConversation();
-
+  const { navigate } = useNavigate();
   const clickHandler = () => {
     // dispatch(setInputValue(''));
     // dispatch(setQuery(''));
