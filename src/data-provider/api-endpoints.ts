@@ -109,3 +109,7 @@ export const getSignedURL = () => {
 export const processFile = () => {
   return "/api/files/process";
 };
+
+export const statusFile = () => {
+  return "/api/files/process/status";
+};

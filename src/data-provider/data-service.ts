@@ -135,3 +135,7 @@ export const uploadToS3 = (url, payload) => {
 export const processFile = (payload) => {
   return request.post(endpoints.processFile(), payload);
 };
+
+export const statusFile = (key) => {
+  return request.get(endpoints.statusFile(), { params: { key } });
+};

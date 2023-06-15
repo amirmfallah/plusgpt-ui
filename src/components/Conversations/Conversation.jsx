@@ -1,20 +1,24 @@
-import { useState, useRef, useEffect } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { useUpdateConversationMutation } from '~/data-provider';
-import RenameButton from './RenameButton';
-import DeleteButton from './DeleteButton';
-import ConvoIcon from '../svg/ConvoIcon';
+import { useState, useRef, useEffect } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { useUpdateConversationMutation } from "~/data-provider";
+import RenameButton from "./RenameButton";
+import DeleteButton from "./DeleteButton";
+import ConvoIcon from "../svg/ConvoIcon";
 
-import store from '~/store';
+import store from "~/store";
 
 export default function Conversation({ conversation, retainView }) {
-  const [currentConversation, setCurrentConversation] = useRecoilState(store.conversation);
+  const [currentConversation, setCurrentConversation] = useRecoilState(
+    store.conversation
+  );
   const setSubmission = useSetRecoilState(store.submission);
 
   const { refreshConversations } = store.useConversations();
   const { switchToConversation } = store.useConversation();
 
-  const updateConvoMutation = useUpdateConversationMutation(currentConversation?.conversationId);
+  const updateConvoMutation = useUpdateConversationMutation(
+    currentConversation?.conversationId
+  );
 
   const [renaming, setRenaming] = useState(false);
   const inputRef = useRef(null);
@@ -67,26 +71,26 @@ export default function Conversation({ conversation, retainView }) {
       if (conversationId == currentConversation?.conversationId) {
         setCurrentConversation((prevState) => ({
           ...prevState,
-          title: titleInput
+          title: titleInput,
         }));
       }
     }
   }, [updateConvoMutation.isSuccess]);
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       onRename(e);
     }
   };
 
   const aProps = {
     className:
-      'animate-flash group relative flex cursor-pointer items-center gap-3 break-all rounded-md bg-gray-800 py-3 px-3 pr-14 hover:bg-gray-800'
+      "animate-flash group relative flex cursor-pointer items-center gap-3 break-all rounded-md bg-gray-800 py-3 px-3 pr-14 hover:bg-gray-800",
   };
 
   if (currentConversation?.conversationId !== conversationId) {
     aProps.className =
-      'group relative flex cursor-pointer items-center gap-3 break-all rounded-md py-3 px-3 hover:bg-[#2A2B32] hover:pr-4';
+      "group relative flex cursor-pointer items-center gap-3 break-all rounded-md py-3 px-3 hover:bg-[#2A2B32] hover:pr-4";
   }
 
   return (

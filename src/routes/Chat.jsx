@@ -11,7 +11,6 @@ import {
   useGetMessagesByConvoId,
   useGetConversationByIdMutation,
 } from "~/data-provider";
-import UploadFile from "~/components/Input/UploadFile.jsx";
 
 export default function Chat() {
   const searchQuery = useRecoilValue(store.searchQuery);
@@ -37,6 +36,8 @@ export default function Chat() {
         // create new
         newConversation();
       } else if (conversationId) {
+        console.log("fetching");
+        console.log(conversationId);
         // fetch it from server
         getConversationMutation.mutate(conversationId, {
           onSuccess: (data) => {
@@ -51,6 +52,7 @@ export default function Chat() {
         });
         setMessages(null);
       } else {
+        console.log("new new");
         navigate(`/chat/new`);
       }
     } else if (conversation?.conversationId === "search") {
