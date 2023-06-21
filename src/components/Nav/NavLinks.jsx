@@ -1,19 +1,19 @@
-import { Menu, Transition } from '@headlessui/react';
-import { Fragment, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import SearchBar from './SearchBar';
-import TrashIcon from '../svg/TrashIcon';
-import { Download } from 'lucide-react';
-import NavLink from './NavLink';
-import ExportModel from './ExportConversation/ExportModel';
-import ClearConvos from './ClearConvos';
-import DarkMode from './DarkMode';
-import Logout from './Logout';
-import { useAuthContext } from '~/hooks/AuthContext';
-import { cn } from '~/utils/';
-import DotsIcon from '../svg/DotsIcon';
+import { Menu, Transition } from "@headlessui/react";
+import { Fragment, useState } from "react";
+import { useRecoilValue } from "recoil";
+import SearchBar from "./SearchBar";
+import TrashIcon from "../svg/TrashIcon";
+import { Download } from "lucide-react";
+import NavLink from "./NavLink";
+import ExportModel from "./ExportConversation/ExportModel";
+import ClearConvos from "./ClearConvos";
+import DarkMode from "./DarkMode";
+import Logout from "./Logout";
+import { useAuthContext } from "~/hooks/AuthContext";
+import { cn } from "~/utils/";
+import DotsIcon from "../svg/DotsIcon";
 
-import store from '~/store';
+import store from "~/store";
 
 export default function NavLinks({ clearSearch, isSearchEnabled }) {
   const [showExports, setShowExports] = useState(false);
@@ -24,8 +24,8 @@ export default function NavLinks({ clearSearch, isSearchEnabled }) {
 
   const exportable =
     conversation?.conversationId &&
-    conversation?.conversationId !== 'new' &&
-    conversation?.conversationId !== 'search';
+    conversation?.conversationId !== "new" &&
+    conversation?.conversationId !== "search";
 
   const clickHandler = () => {
     if (exportable) setShowExports(true);
@@ -33,13 +33,13 @@ export default function NavLinks({ clearSearch, isSearchEnabled }) {
 
   return (
     <>
-      <Menu as="div" className="group relative">
+      <Menu as="div" className="group relative fa">
         {({ open }) => (
           <>
             <Menu.Button
               className={cn(
-                'group-ui-open:bg-gray-800 flex w-full items-center gap-2.5 rounded-md px-3 py-3 text-sm transition-colors duration-200 hover:bg-gray-800',
-                open ? 'bg-gray-800' : ''
+                "group-ui-open:bg-gray-800 flex w-full items-center gap-2.5 rounded-md px-3 py-3 text-sm transition-colors duration-200 hover:bg-gray-800",
+                open ? "bg-gray-800" : ""
               )}
             >
               <div className="-ml-0.5 h-5 w-5 flex-shrink-0">
@@ -47,14 +47,15 @@ export default function NavLinks({ clearSearch, isSearchEnabled }) {
                   <img
                     className="rounded-sm"
                     src={
-                      user?.avatar || `https://avatars.dicebear.com/api/initials/${user?.name}.svg`
+                      user?.avatar ||
+                      `https://avatars.dicebear.com/api/initials/${user?.name}.svg`
                     }
                     alt=""
                   />
                 </div>
               </div>
               <div className="grow overflow-hidden text-ellipsis whitespace-nowrap text-left text-white">
-                {user?.name || 'USER'}
+                {user?.name || "USER"}
               </div>
               <DotsIcon />
             </Menu.Button>
@@ -77,11 +78,13 @@ export default function NavLinks({ clearSearch, isSearchEnabled }) {
                 <Menu.Item as="div">
                   <NavLink
                     className={cn(
-                      'flex w-full cursor-pointer items-center gap-3 px-3 py-3 text-sm text-white transition-colors duration-200 hover:bg-gray-700',
-                      exportable ? 'cursor-pointer text-white' : 'cursor-not-allowed text-gray-400'
+                      "flex w-full cursor-pointer items-center gap-3 px-3 py-3 text-sm text-white transition-colors duration-200 hover:bg-gray-700",
+                      exportable
+                        ? "cursor-pointer text-white"
+                        : "cursor-not-allowed text-gray-400"
                     )}
                     svg={() => <Download size={16} />}
-                    text="Export conversation"
+                    text="خروجی گرفتن گفت‌و‌گو ها"
                     clickHandler={clickHandler}
                   />
                 </Menu.Item>
@@ -93,7 +96,7 @@ export default function NavLinks({ clearSearch, isSearchEnabled }) {
                   <NavLink
                     className="flex w-full cursor-pointer items-center gap-3 px-3 py-3 text-sm text-white transition-colors duration-200 hover:bg-gray-700"
                     svg={() => <TrashIcon />}
-                    text="Clear conversations"
+                    text="پاک کردن گفت‌و‌گو ها"
                     clickHandler={() => setShowClearConvos(true)}
                   />
                 </Menu.Item>
@@ -106,8 +109,12 @@ export default function NavLinks({ clearSearch, isSearchEnabled }) {
           </>
         )}
       </Menu>
-      {showExports && <ExportModel open={showExports} onOpenChange={setShowExports} />}
-      {showClearConvos && <ClearConvos open={showClearConvos} onOpenChange={setShowClearConvos} />}
+      {showExports && (
+        <ExportModel open={showExports} onOpenChange={setShowExports} />
+      )}
+      {showClearConvos && (
+        <ClearConvos open={showClearConvos} onOpenChange={setShowClearConvos} />
+      )}
     </>
   );
 }

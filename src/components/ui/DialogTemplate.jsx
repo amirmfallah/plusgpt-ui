@@ -1,13 +1,13 @@
-import { forwardRef } from 'react';
+import { forwardRef } from "react";
 import {
   DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle
-} from './Dialog.tsx';
-import { cn } from '~/utils/';
+  DialogTitle,
+} from "./Dialog.tsx";
+import { cn } from "~/utils/";
 
 const DialogTemplate = forwardRef((props, ref) => {
   const {
@@ -17,16 +17,21 @@ const DialogTemplate = forwardRef((props, ref) => {
     buttons,
     leftButtons,
     selection,
-    className
+    className,
   } = props;
   const { selectHandler, selectClasses, selectText } = selection || {};
 
   const defaultSelect =
-    'bg-gray-900 text-white transition-colors hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200 dark:focus:ring-gray-400 dark:focus:ring-offset-gray-900';
+    "bg-gray-900 text-white transition-colors hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200 dark:focus:ring-gray-400 dark:focus:ring-offset-gray-900";
   return (
-    <DialogContent ref={ref} className={cn('shadow-2xl dark:bg-gray-800', className || '')}>
+    <DialogContent
+      ref={ref}
+      className={cn("shadow-2xl dark:bg-gray-800 fa", className || "")}
+    >
       <DialogHeader>
-        <DialogTitle className="text-gray-800 dark:text-white">{title}</DialogTitle>
+        <DialogTitle className="text-gray-800 dark:text-white">
+          {title}
+        </DialogTitle>
         <DialogDescription className="text-gray-600 dark:text-gray-300">
           {description}
         </DialogDescription>
@@ -35,7 +40,9 @@ const DialogTemplate = forwardRef((props, ref) => {
       <DialogFooter>
         <div>{leftButtons ? leftButtons : null}</div>
         <div className="flex gap-2">
-          <DialogClose className="dark:hover:gray-400 border-gray-700">Cancel</DialogClose>
+          <DialogClose className="dark:hover:gray-400 border-gray-700">
+            بیخیال
+          </DialogClose>
           {buttons ? buttons : null}
           {selection ? (
             <DialogClose

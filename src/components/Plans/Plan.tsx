@@ -42,13 +42,18 @@ export default function Plan({ props, setError, processing, setProcessing }) {
         </h2>
         <ul className="m-auto flex w-full flex-col gap-3.5 sm:max-w-md">
           <li className="w-full rounded-md bg-gray-50 p-3 dark:bg-white/5">
-            {props.description}
+            بدون محدودیت زمانی
           </li>
           <li className="w-full rounded-md bg-gray-50 p-3 dark:bg-white/5">
-            {`شامل ${props.amount} سوال از ChatGPT`}
+            {`شامل ${new Intl.NumberFormat().format(
+              props.amount
+            )} سوال از ChatGPT`}
+          </li>
+          <li className="w-full rounded-md bg-gray-50 p-3 dark:bg-white/5">
+            {`جمعا ${new Intl.NumberFormat().format(props.amountToken)} کلمه`}
           </li>
           <li className="w-full rounded-md bg-gray-50 p-3 dark:bg-white/5 fa">
-            {`${props.price} تومان`}
+            {`${new Intl.NumberFormat().format(props.price)} تومان`}
           </li>
           <button
             onClick={() => clickHandler(props._id)}

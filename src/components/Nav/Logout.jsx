@@ -17,7 +17,7 @@ const Logout = forwardRef(() => {
     >
       <LogOutIcon />
       {user?.name || "USER"}
-      <small>Log out</small>
+      <small>خروج</small>
     </button>
   );
 });
