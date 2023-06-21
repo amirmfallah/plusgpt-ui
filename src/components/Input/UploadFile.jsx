@@ -202,12 +202,12 @@ export default function UploadFile() {
       />
 
       {processing && (
-        <span className="font-semibold text-gray-900 mt-3">
+        <span className="font-semibold light:text-gray-900 mt-3">
           در حال پردازش فایل
         </span>
       )}
       {uploading && (
-        <span className="font-semibold text-gray-900 mt-3">
+        <span className="font-semibold light:text-gray-900 mt-3">
           در حال آپلود کردن
         </span>
       )}

@@ -1,18 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useRecoilValue, useRecoilState } from 'recoil';
-import SubmitButton from './SubmitButton';
-import OpenAIOptions from './OpenAIOptions';
-import ChatGPTOptions from './ChatGPTOptions';
-import BingAIOptions from './BingAIOptions';
-import GoogleOptions from './GoogleOptions';
+import React, { useEffect, useRef, useState } from "react";
+import { useRecoilValue, useRecoilState } from "recoil";
+import SubmitButton from "./SubmitButton";
+import OpenAIOptions from "./OpenAIOptions";
+import ChatGPTOptions from "./ChatGPTOptions";
+import BingAIOptions from "./BingAIOptions";
+import GoogleOptions from "./GoogleOptions";
 // import BingStyles from './BingStyles';
-import NewConversationMenu from './NewConversationMenu';
-import AdjustToneButton from './AdjustToneButton';
-import Footer from './Footer';
-import TextareaAutosize from 'react-textarea-autosize';
-import { useMessageHandler } from '../../utils/handleSubmit';
+import NewConversationMenu from "./NewConversationMenu";
+import AdjustToneButton from "./AdjustToneButton";
+import Footer from "./Footer";
+import TextareaAutosize from "react-textarea-autosize";
+import { useMessageHandler } from "../../utils/handleSubmit";
 
-import store from '~/store';
+import store from "~/store";
 
 export default function TextChat({ isSearchView = false }) {
   const inputRef = useRef(null);
@@ -34,11 +34,12 @@ export default function TextChat({ isSearchView = false }) {
   // const bingStylesRef = useRef(null);
   const [showBingToneSetting, setShowBingToneSetting] = useState(false);
 
-  const isNotAppendable = latestMessage?.unfinished & !isSubmitting || latestMessage?.error;
+  const isNotAppendable =
+    latestMessage?.unfinished & !isSubmitting || latestMessage?.error;
 
   // auto focus to input, when enter a conversation.
   useEffect(() => {
-    if (conversation?.conversationId !== 'search') inputRef.current?.focus();
+    if (conversation?.conversationId !== "search") inputRef.current?.focus();
     // setText('');
   }, [conversation?.conversationId]);
 
@@ -61,7 +62,7 @@ export default function TextChat({ isSearchView = false }) {
 
   const submitMessage = () => {
     ask({ text });
-    setText('');
+    setText("");
   };
 
   const handleStopGenerating = (e) => {
@@ -70,26 +71,26 @@ export default function TextChat({ isSearchView = false }) {
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && isSubmitting) {
+    if (e.key === "Enter" && isSubmitting) {
       return;
     }
 
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
     }
 
-    if (e.key === 'Enter' && !e.shiftKey && !isComposing?.current) {
+    if (e.key === "Enter" && !e.shiftKey && !isComposing?.current) {
       submitMessage();
     }
   };
 
   const handleKeyUp = (e) => {
-    if (e.keyCode === 8 && e.target.value.trim() === '') {
+    if (e.keyCode === 8 && e.target.value.trim() === "") {
       setText(e.target.value);
     }
 
-    if (e.key === 'Enter' && e.shiftKey) {
-      return console.log('Enter + Shift');
+    if (e.key === "Enter" && e.shiftKey) {
+      return console.log("Enter + Shift");
     }
 
     if (isSubmitting) {
@@ -113,18 +114,18 @@ export default function TextChat({ isSearchView = false }) {
 
   const getPlaceholderText = () => {
     if (isSearchView) {
-      return 'Click a message title to open its conversation.';
+      return "Click a message title to open its conversation.";
     }
 
     if (disabled) {
-      return 'Choose another model or customize GPT again';
+      return "Choose another model or customize GPT again";
     }
 
     if (isNotAppendable) {
-      return 'Edit your message or Regenerate.';
+      return "Edit your message or Regenerate.";
     }
 
-    return '';
+    return "";
   };
 
   const handleBingToneSetting = () => {
@@ -149,9 +150,9 @@ export default function TextChat({ isSearchView = false }) {
             <div className="relative flex h-full flex-1 md:flex-col">
               <div
                 className={`relative flex flex-grow flex-row rounded-md border border-black/10 ${
-                  disabled ? 'bg-gray-100' : 'bg-white'
+                  disabled ? "bg-gray-100" : "bg-white"
                 } py-2 shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:border-gray-900/50 ${
-                  disabled ? 'dark:bg-gray-900' : 'dark:bg-gray-700'
+                  disabled ? "dark:bg-gray-900" : "dark:bg-gray-700"
                 } dark:text-white dark:shadow-[0_0_15px_rgba(0,0,0,0.10)] md:py-3 md:pl-4`}
               >
                 <NewConversationMenu />
@@ -161,7 +162,7 @@ export default function TextChat({ isSearchView = false }) {
                   ref={inputRef}
                   // style={{maxHeight: '200px', height: '24px', overflowY: 'hidden'}}
                   rows="1"
-                  value={disabled || isNotAppendable ? '' : text}
+                  value={disabled || isNotAppendable ? "" : text}
                   onKeyUp={handleKeyUp}
                   onKeyDown={handleKeyDown}
                   onChange={changeHandler}
@@ -169,7 +170,7 @@ export default function TextChat({ isSearchView = false }) {
                   onCompositionEnd={handleCompositionEnd}
                   placeholder={getPlaceholderText()}
                   disabled={disabled || isNotAppendable}
-                  className="m-0 flex h-auto max-h-52 flex-1 resize-none overflow-auto border-0 bg-transparent p-0 pl-2 pr-12 leading-6 placeholder:text-sm placeholder:text-gray-600 focus:outline-none focus:ring-0 focus-visible:ring-0 dark:bg-transparent dark:placeholder:text-gray-500 md:pl-2"
+                  className="m-0 flex h-auto max-h-52 flex-1 resize-none overflow-auto border-0 bg-transparent p-0 pl-2 pr-12 leading-6 placeholder:text-sm placeholder:text-gray-600 focus:outline-none focus:ring-0 focus-visible:ring-0 dark:bg-transparent dark:placeholder:text-gray-500 md:pl-2 fa"
                 />
                 <SubmitButton
                   submitMessage={submitMessage}
@@ -179,7 +180,9 @@ export default function TextChat({ isSearchView = false }) {
                   endpointsConfig={endpointsConfig}
                   endpoint={conversation?.endpoint}
                 />
-                {latestMessage && conversation?.jailbreak && conversation.endpoint === 'bingAI' ? (
+                {latestMessage &&
+                conversation?.jailbreak &&
+                conversation.endpoint === "bingAI" ? (
                   <AdjustToneButton onClick={handleBingToneSetting} />
                 ) : null}
               </div>

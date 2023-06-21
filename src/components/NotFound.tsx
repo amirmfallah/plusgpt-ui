@@ -24,7 +24,7 @@ export default function NotFound() {
             <span className="material-symbols-rounded">arrow_back_ios</span>
           </div>
         </div>
-        <img src="src/components/svg/404.svg" />
+        <img src="/assets/404.svg" />
       </div>
     </div>
   );

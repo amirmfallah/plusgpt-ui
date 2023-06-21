@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import LightningIcon from "../svg/LightningIcon.jsx";
 import { useBuyPlan } from "~/data-provider";
 import { useBuyPlanMutation } from "~/data-provider/react-query-service.js";
@@ -10,18 +10,23 @@ type Props = {
   description: string;
   metedata: Array<Object>;
   price: number;
+  setError: any;
 };
 
-export default function Plan({ props }) {
+export default function Plan({ props, setError, processing, setProcessing }) {
   const buyPlanMutaiton = useBuyPlanMutation();
   const clickHandler = (id) => {
+    setProcessing(true);
     buyPlanMutaiton.mutate(
       { product_id: id },
       {
         onSuccess: (data) => {
           window.location.href = data.uri;
         },
-        onError: () => {
+        onError: (e) => {
+          setProcessing(false);
+          setError(e.response?.data?.message || "خطا ناشناخته رخ داده است");
+          //setError(e);
           //setResetError(true);
         },
       }
@@ -47,7 +52,8 @@ export default function Plan({ props }) {
           </li>
           <button
             onClick={() => clickHandler(props._id)}
-            className="btn btn-primary justify-center gap-2 border-0 md:border"
+            className="btn btn-primary justify-center gap-2 border-0 md:border disabled:bg-gray-600 disabled:hover:bg-gray-600"
+            disabled={processing}
           >
             خرید بسته
           </button>

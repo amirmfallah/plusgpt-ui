@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 export default function Plans() {
   const getPlans = useGetPlans();
   const [plans, setPlans] = useState([]);
+  const [error, setError] = useState();
+  const [processing, setProcessing] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     if (getPlans.data) {
@@ -34,20 +36,31 @@ export default function Plans() {
             }}
           >
             <span className="bold font-semibold">بازگشت</span>
-            <span className="material-symbols-rounded">
-              arrow_back_ios
-            </span>
+            <span className="material-symbols-rounded">arrow_back_ios</span>
           </div>
         </div>
-
-        <p className="text-right text-md text-gray-600">
+        {error && (
+          <span className="rounded-md border border-red-500 bg-red-500/10 text-md text-gray-600 dark:text-gray-100 fa mb-4 p-5">
+            {error == "Plan activation limit reached"
+              ? "سرویس مجانی فقط می‌تواند یک بار فعال شود"
+              : error}
+          </span>
+        )}
+        <p className="text-right text-md light:text-gray-600">
           خدمات ما در قالب بسته های گوناگون قابل دسترسی هستند. در بسته های
           متفاوت، امکانات مختلفی ارائه شده است که با توجه به نیاز و میزان
           استفاده شما از هر بخش، میتوانید بسته ای را انتخاب و سفارش دهید.
         </p>
         <div className="items-start gap-3.5 text-center md:flex mt-10">
           {plans.map((plan) => {
-            return <Plan props={plan} />;
+            return (
+              <Plan
+                props={plan}
+                setError={setError}
+                processing={processing}
+                setProcessing={setProcessing}
+              />
+            );
           })}
         </div>
       </div>
