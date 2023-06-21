@@ -1,11 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { TLoginUser } from "~/data-provider";
 import { useAuthContext } from "~/hooks/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const { login, error, isAuthenticated } = useAuthContext();
+  const { login, error, isAuthenticated, isLoading } = useAuthContext();
   const {
     register,
     handleSubmit,
@@ -138,7 +138,8 @@ function Login() {
             <button
               aria-label="Sign in"
               type="submit"
-              className="w-full transform rounded-sm bg-green-500 px-4 py-3 tracking-wide text-white transition-colors duration-200 hover:bg-green-600 focus:bg-green-600 focus:outline-none"
+              disabled={isLoading}
+              className="auth-btn w-full transform rounded-sm bg-green-500 px-4 py-3 tracking-wide text-white transition-colors duration-200 hover:bg-green-600 focus:bg-green-600 focus:outline-none disabled:bg-gray-600"
             >
               ادامه
             </button>

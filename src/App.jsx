@@ -28,6 +28,7 @@ import ApiErrorWatcher from "./components/Auth/ApiErrorWatcher";
 import Plans from "./components/Plans/Plans";
 import PaymentError from "./components/Payment/PaymentError";
 import Verify from "./components/Auth/VerifyPhone";
+import NotFound from "./components/NotFound";
 
 const AuthLayout = () => (
   <AuthContextProvider>
@@ -85,6 +86,10 @@ const router = createBrowserRouter([
             element: <Search />,
           },
         ],
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },

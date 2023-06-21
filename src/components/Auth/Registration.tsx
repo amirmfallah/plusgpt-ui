@@ -2,9 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useRegisterUserMutation, TRegisterUser } from "~/data-provider";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebook } from "@fortawesome/free-brands-svg-icons";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 function Registration() {
   const SERVER_URL = import.meta.env.DEV
@@ -23,15 +20,18 @@ function Registration() {
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const registerUser = useRegisterUserMutation();
+  const [processing, setProcessing] = useState(false);
 
   const password = watch("password");
 
   const onRegisterUserFormSubmit = (data: TRegisterUser) => {
+    setProcessing(true);
     registerUser.mutate(data, {
       onSuccess: () => {
         navigate("/chat/new");
       },
       onError: (error) => {
+        setProcessing(false);
         setError(true);
         if (error.response?.data?.message) {
           setErrorMessage(error.response?.data?.message);
@@ -261,6 +261,7 @@ function Registration() {
           <div className="mt-6">
             <button
               disabled={
+                processing ||
                 !!errors.email ||
                 !!errors.phone ||
                 !!errors.name ||
@@ -270,7 +271,7 @@ function Registration() {
               }
               type="submit"
               aria-label="Submit registration"
-              className="w-full transform rounded-sm bg-green-500 px-4 py-3 tracking-wide text-white transition-colors duration-200 hover:bg-green-600 focus:bg-green-600 focus:outline-none"
+              className="w-full transform rounded-sm bg-green-500 px-4 py-3 tracking-wide text-white transition-colors duration-200 hover:bg-green-600 focus:bg-green-600 focus:outline-none disabled:bg-gray-600"
             >
               ادامه
             </button>
