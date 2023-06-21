@@ -40,13 +40,13 @@ export default function Plans() {
           </div>
         </div>
         {error && (
-          <span className="rounded-md border border-red-500 bg-red-500/10 text-md text-gray-600 dark:text-gray-100 fa mb-4 p-5">
+          <span className="flex text-center justify-center rounded-md border border-red-500 bg-red-500/10 px-1 py-3 sm:text-md text-gray-600 dark:text-gray-100 fa lg:p-5 md:p-5 w-full">
             {error == "Plan activation limit reached"
               ? "سرویس مجانی فقط می‌تواند یک بار فعال شود"
               : error}
           </span>
         )}
-        <p className="text-right text-md light:text-gray-600">
+        <p className="text-right text-md light:text-gray-600 mt-6">
           خدمات ما در قالب بسته های گوناگون قابل دسترسی هستند. در بسته های
           متفاوت، امکانات مختلفی ارائه شده است که با توجه به نیاز و میزان
           استفاده شما از هر بخش، میتوانید بسته ای را انتخاب و سفارش دهید.
