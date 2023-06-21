@@ -2192,7 +2192,6 @@ button.scroll-convo {
   transition: background 0.2s ease-in-out, border 0.2s ease-in-out;
 }
 
-
 .drag-active {
   background: #eee;
   border-color: #111;
