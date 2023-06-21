@@ -36,7 +36,7 @@ export default function Plans() {
             <span className="bold font-semibold">بازگشت</span>
             <span className="material-symbols-rounded">
               arrow_back_ios
-            </span>{" "}
+            </span>
           </div>
         </div>
 
