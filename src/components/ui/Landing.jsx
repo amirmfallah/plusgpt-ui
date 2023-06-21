@@ -8,6 +8,7 @@ import CautionIcon from "../svg/CautionIcon";
 import ChatIcon from "../svg/ChatIcon";
 
 import store from "~/store";
+import UploadFile from "../Input/UploadFile.jsx";
 
 export default function Landing() {
   const [showingTemplates, setShowingTemplates] = useState(false);
@@ -29,76 +30,86 @@ export default function Landing() {
     setShowingTemplates(!showingTemplates);
   };
 
+  const red = () => {
+    window.clzvvNIxHV("porsline-popup-iframe");
+    window.showPopUp();
+    window.getElementById("porsline-popup").classList.add("top");
+  };
+
   return (
     <div className="flex h-full flex-col items-center overflow-y-auto pt-0 text-sm dark:bg-gray-800">
       <div className="w-full px-6 text-gray-800 dark:text-gray-100 md:flex md:max-w-2xl md:flex-col lg:max-w-3xl">
         <h1
           id="landing-title"
-          className="mb-10 ml-auto mr-auto mt-6 flex items-center justify-center gap-2 text-center text-4xl font-semibold sm:mb-16 md:mt-[10vh]"
+          className="mb-10 ml-auto mr-auto mt-6 flex items-center justify-center gap-2 text-center text-4xl font-semibold sm:mb-16 md:mt-[10vh] fa"
         >
-          {import.meta.env.VITE_APP_TITLE || "PlusGPT"}
+          {import.meta.env.VITE_APP_TITLE || "پلاس جی‌پی‌تی"}
         </h1>
-        <div className="items-start gap-3.5 text-center md:flex">
+        <div className="items-start gap-3.5 text-center md:flex fa">
           <div className="mb-8 flex flex-1 flex-col gap-3.5 md:mb-auto">
             <h2 className="m-auto flex items-center gap-3 text-lg font-normal md:flex-col md:gap-2">
-              <SunIcon />
-              Examples
+              <span className="material-symbols-rounded text-4xl">apps</span>
+              نمونه{" "}
             </h2>
             <ul className="m-auto flex w-full flex-col gap-3.5 sm:max-w-md">
               <button
                 onClick={clickHandler}
                 className="w-full rounded-md bg-gray-50 p-3 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-gray-900"
               >
-                &quot;Explain quantum computing in simple terms&quot; →
+                &quot;پردازش کوانتومی را به زبان ساده توضیح بده&quot; →
               </button>
               <button
                 onClick={clickHandler}
                 className="w-full rounded-md bg-gray-50 p-3 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-gray-900"
               >
-                &quot;Got any creative ideas for a 10 year old&apos;s
-                birthday?&quot; →
+                &quot;نشانه های سرما خوردگی چه چیزهایی هستند؟&quot; →
               </button>
               <button
                 onClick={clickHandler}
                 className="w-full rounded-md bg-gray-50 p-3 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-gray-900"
               >
-                &quot;How do I make an HTTP request in Javascript?&quot; →
+                &quot;کتاب دنیای سوفی را در یک پاراگراف خلاصه کن&quot; →
               </button>
             </ul>
           </div>
-          <div className="mb-8 flex flex-1 flex-col gap-3.5 md:mb-auto">
-            <h2 className="m-auto flex items-center gap-3 text-lg font-normal md:flex-col md:gap-2">
-              <LightningIcon />
-              Capabilities
+
+          {/* <div className="mb-8 flex flex-1 flex-col gap-3.5 md:mb-auto">
+            <h2 className="m-auto flex items-center gap-3 text-lg font-normal md:flex-col md:gap-2 fa">
+              <span className="material-symbols-rounded text-4xl">
+                auto_detect_voice
+              </span>{" "}
+              فایل صوتی رو به متن یا جزوه تبدیل کن
             </h2>
             <ul className="m-auto flex w-full flex-col gap-3.5 sm:max-w-md">
               <li className="w-full rounded-md bg-gray-50 p-3 dark:bg-white/5">
-                Remembers what user said earlier in the conversation
-              </li>
-              <li className="w-full rounded-md bg-gray-50 p-3 dark:bg-white/5">
-                Allows user to provide follow-up corrections
-              </li>
-              <li className="w-full rounded-md bg-gray-50 p-3 dark:bg-white/5">
-                Trained to decline inappropriate requests
+                <UploadFile />
               </li>
             </ul>
-          </div>
+          </div> */}
+
           <div className="mb-8 flex flex-1 flex-col gap-3.5 md:mb-auto">
-            <h2 className="m-auto flex items-center gap-3 text-lg font-normal md:flex-col md:gap-2">
-              <CautionIcon />
-              Limitations
+            <h2 className="m-auto flex items-center gap-3 text-lg font-normal md:flex-col md:gap-2 fa">
+              <span className="material-symbols-rounded text-4xl">
+                description
+              </span>
+              از فایل متنی (PDF) سوال بپرس
             </h2>
             <ul className="m-auto flex w-full flex-col gap-3.5 sm:max-w-md">
               <li className="w-full rounded-md bg-gray-50 p-3 dark:bg-white/5">
-                May occasionally generate incorrect information
-              </li>
-              <li className="w-full rounded-md bg-gray-50 p-3 dark:bg-white/5">
-                May occasionally produce harmful instructions or biased content
-              </li>
-              <li className="w-full rounded-md bg-gray-50 p-3 dark:bg-white/5">
-                Limited knowledge of world and events after 2021
+                <UploadFile />
               </li>
             </ul>
+            <button
+              href="#porsline-popup"
+              onClick={red}
+              className="w-full rounded-md bg-gray-50 p-3 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-gray-900 flex flex-col items-center"
+            >
+              <span className="font-semibold mb-2">
+                ثبت پیشنهاد برای این ویژگی
+              </span>
+
+              <span>این ویژگی به صورت آزمایشی در دسترس قرار گرفته است</span>
+            </button>
           </div>
         </div>
         {/* {!showingTemplates && (

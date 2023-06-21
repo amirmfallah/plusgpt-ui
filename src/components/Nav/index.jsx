@@ -1,19 +1,19 @@
-import { useState, useEffect, useRef, useContext } from 'react';
-import NewChat from './NewChat';
-import Panel from '../svg/Panel';
-import Spinner from '../svg/Spinner';
-import Pages from '../Conversations/Pages';
-import Conversations from '../Conversations';
-import NavLinks from './NavLinks';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useGetConversationsQuery, useSearchQuery } from '~/data-provider';
-import useDebounce from '~/hooks/useDebounce';
-import store from '~/store';
-import { useAuthContext } from '~/hooks/AuthContext';
-import { ThemeContext } from '~/hooks/ThemeContext';
-import { cn } from '~/utils/';
-import Usage from './Usage.jsx';
-import NoSub from './NoSub.jsx';
+import { useState, useEffect, useRef, useContext } from "react";
+import NewChat from "./NewChat";
+import Panel from "../svg/Panel";
+import Spinner from "../svg/Spinner";
+import Pages from "../Conversations/Pages";
+import Conversations from "../Conversations";
+import NavLinks from "./NavLinks";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useGetConversationsQuery, useSearchQuery } from "~/data-provider";
+import useDebounce from "~/hooks/useDebounce";
+import store from "~/store";
+import { useAuthContext } from "~/hooks/AuthContext";
+import { ThemeContext } from "~/hooks/ThemeContext";
+import { cn } from "~/utils/";
+import Usage from "./Usage.jsx";
+import NoSub from "./NoSub.jsx";
 
 // import resolveConfig from 'tailwindcss/resolveConfig';
 // const tailwindConfig = import('../../../tailwind.config.cjs');
@@ -42,7 +42,6 @@ export default function Nav({ navVisible, setNavVisible }) {
   const containerRef = useRef(null);
   const scrollPositionRef = useRef(null);
   const { user } = useAuthContext();
-  console.log(isAuthenticated);
 
   const [conversations, setConversations] = useState([]);
   // current page
@@ -51,19 +50,24 @@ export default function Nav({ navVisible, setNavVisible }) {
   const [pages, setPages] = useState(1);
 
   // data provider
-  const getConversationsQuery = useGetConversationsQuery(pageNumber, { enabled: isAuthenticated });
+  const getConversationsQuery = useGetConversationsQuery(pageNumber, {
+    enabled: isAuthenticated,
+  });
 
   // search
   const searchQuery = useRecoilValue(store.searchQuery);
   const isSearchEnabled = useRecoilValue(store.isSearchEnabled);
   const isSearching = useRecoilValue(store.isSearching);
-  const { newConversation, searchPlaceholderConversation } = store.useConversation();
+  const { newConversation, searchPlaceholderConversation } =
+    store.useConversation();
 
   // current conversation
   const conversation = useRecoilValue(store.conversation);
   const { conversationId } = conversation || {};
   const setSearchResultMessages = useSetRecoilState(store.searchResultMessages);
-  const refreshConversationsHint = useRecoilValue(store.refreshConversationsHint);
+  const refreshConversationsHint = useRecoilValue(
+    store.refreshConversationsHint
+  );
   const { refreshConversations } = store.useConversations();
 
   const [isFetching, setIsFetching] = useState(false);
@@ -71,7 +75,10 @@ export default function Nav({ navVisible, setNavVisible }) {
   const debouncedSearchTerm = useDebounce(searchQuery, 750);
   const searchQueryFn = useSearchQuery(debouncedSearchTerm, pageNumber, {
     enabled:
-      !!debouncedSearchTerm && debouncedSearchTerm.length > 0 && isSearchEnabled && isSearching
+      !!debouncedSearchTerm &&
+      debouncedSearchTerm.length > 0 &&
+      isSearchEnabled &&
+      isSearching,
   });
 
   const onSearchSuccess = (data, expectedPage) => {
@@ -98,7 +105,7 @@ export default function Nav({ navVisible, setNavVisible }) {
   const clearSearch = () => {
     setPageNumber(1);
     refreshConversations();
-    if (conversationId == 'search') {
+    if (conversationId == "search") {
       newConversation();
     }
   };
@@ -138,7 +145,12 @@ export default function Nav({ navVisible, setNavVisible }) {
         setPages(pages);
       }
     }
-  }, [getConversationsQuery.isSuccess, getConversationsQuery.data, isSearching, pageNumber]);
+  }, [
+    getConversationsQuery.isSuccess,
+    getConversationsQuery.data,
+    isSearching,
+    pageNumber,
+  ]);
 
   useEffect(() => {
     if (!isSearching) {
@@ -160,7 +172,8 @@ export default function Nav({ navVisible, setNavVisible }) {
   // }, [conversationId, setNavVisible]);
 
   const isMobile = () => {
-    const userAgent = typeof window.navigator === 'undefined' ? '' : navigator.userAgent;
+    const userAgent =
+      typeof window.navigator === "undefined" ? "" : navigator.userAgent;
     const mobileRegex =
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i;
     return mobileRegex.test(userAgent);
@@ -176,26 +189,31 @@ export default function Nav({ navVisible, setNavVisible }) {
 
   const containerClasses =
     getConversationsQuery.isLoading && pageNumber === 1
-      ? 'flex flex-col gap-2 text-gray-100 text-sm h-full justify-center items-center'
-      : 'flex flex-col gap-2 text-gray-100 text-sm';
+      ? "flex flex-col gap-2 text-gray-100 text-sm h-full justify-center items-center"
+      : "flex flex-col gap-2 text-gray-100 text-sm";
 
   return (
     <>
-      <div className={'nav dark bg-gray-900 md:inset-y-0' + (navVisible ? ' active' : '')}>
+      <div
+        className={
+          "nav dark bg-gray-900 md:inset-y-0" + (navVisible ? " active" : "")
+        }
+      >
         <div className="flex h-full min-h-0 flex-col ">
           <div className="scrollbar-trigger relative flex h-full w-full flex-1 items-start border-white/20">
             <nav className="relative flex h-full flex-1 flex-col space-y-1 p-2">
               <NewChat />
               <div
                 className={`flex-1 flex-col overflow-y-auto ${
-                  isHovering ? '' : 'scrollbar-transparent'
+                  isHovering ? "" : "scrollbar-transparent"
                 } border-b border-white/20`}
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}
                 ref={containerRef}
               >
                 <div className={containerClasses}>
-                  {(getConversationsQuery.isLoading && pageNumber === 1) || isFetching ? (
+                  {(getConversationsQuery.isLoading && pageNumber === 1) ||
+                  isFetching ? (
                     <Spinner />
                   ) : (
                     <Conversations
@@ -214,17 +232,20 @@ export default function Nav({ navVisible, setNavVisible }) {
               </div>
               {user?.plan?.active ? <Usage user={user} /> : <NoSub />}
 
-              <NavLinks clearSearch={clearSearch} isSearchEnabled={isSearchEnabled} />
+              <NavLinks
+                clearSearch={clearSearch}
+                isSearchEnabled={isSearchEnabled}
+              />
             </nav>
           </div>
         </div>
         <button
           type="button"
           className={cn(
-            'nav-close-button -ml-0.5 -mt-2.5 inline-flex h-10 w-10 items-center justify-center rounded-md focus:outline-none focus:ring-white md:-ml-1 md:-mt-2.5',
-            theme === 'dark'
-              ? 'text-gray-500 hover:text-gray-400'
-              : 'text-gray-400 hover:text-gray-500'
+            "nav-close-button -ml-0.5 -mt-2.5 inline-flex h-10 w-10 items-center justify-center rounded-md focus:outline-none focus:ring-white md:-ml-1 md:-mt-2.5",
+            theme === "dark"
+              ? "text-gray-500 hover:text-gray-400"
+              : "text-gray-400 hover:text-gray-500"
           )}
           onClick={toggleNavVisible}
         >
@@ -243,7 +264,10 @@ export default function Nav({ navVisible, setNavVisible }) {
         </button>
       )}
 
-      <div className={'nav-mask' + (navVisible ? ' active' : '')} onClick={toggleNavVisible}></div>
+      <div
+        className={"nav-mask" + (navVisible ? " active" : "")}
+        onClick={toggleNavVisible}
+      ></div>
     </>
   );
 }
