@@ -18,7 +18,7 @@ export default function Plans() {
   }, [getPlans.isSuccess, getPlans.data, getPlans.isError]);
 
   return (
-    <div className="flex h-full flex-col items-center justify-center fa">
+    <div className="h-full w-full fa p-10 flex flex-col items-center md:justify-center lg:justify-center">
       <div className="w-full  text-gray-800 dark:text-gray-100 md:flex md:max-w-2xl md:flex-col lg:max-w-3xl">
         <div className="w-full flex flex-row justify-between content-center items-center mb-10">
           <h1
@@ -34,7 +34,9 @@ export default function Plans() {
             }}
           >
             <span className="bold font-semibold">بازگشت</span>
-            <span className="material-symbols-outlined">arrow_back_ios</span>
+            <span className="material-symbols-rounded">
+              arrow_back_ios
+            </span>{" "}
           </div>
         </div>
 

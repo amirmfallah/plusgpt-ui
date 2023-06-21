@@ -126,7 +126,10 @@ export default function UploadFile() {
 
   return (
     <form
-      className={"drop-container fa " + (dragActive ? "drag-active" : "")}
+      className={
+        "drop-container fa  hover:bg-gray-100 dark:hover:bg-gray-800" +
+        (dragActive ? "drag-active" : "")
+      }
       method="post"
       encType="multipart/form-data"
       onDragEnter={handleDrag}
@@ -156,14 +159,14 @@ export default function UploadFile() {
           <span>{file.name}</span>
           <div className="flex flex-row gap-2">
             <button className="btn btn-primary p-1 gap-1" onClick={uploadFile}>
-              <span className="material-symbols-outlined">upload</span>
+              <span className="material-symbols-rounded">upload</span>
               <span>آپلود</span>
             </button>
             <button
               className="btn btn-secondary p-1  gap-1"
               onClick={deleteFile}
             >
-              <span className="material-symbols-outlined">delete</span>
+              <span className="material-symbols-rounded">delete</span>
               <span>حذف</span>
             </button>
           </div>

@@ -2187,27 +2187,18 @@ button.scroll-convo {
   padding: 20px;
   border-radius: 10px;
   border: 2px dashed #555;
-  color: #444;
+
   cursor: pointer;
   transition: background 0.2s ease-in-out, border 0.2s ease-in-out;
 }
 
-.drop-container:hover {
-  background: #eee;
-  border-color: #111;
-}
 
 .drag-active {
   background: #eee;
   border-color: #111;
 }
 
-.drop-container:hover .drop-title {
-  color: #222;
-}
-
 .drop-title {
-  color: #444;
   font-size: 20px;
   font-weight: bold;
   text-align: center;
