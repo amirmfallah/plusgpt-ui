@@ -12,12 +12,13 @@ import { statusFile } from "~/data-provider/data-service";
 import { MoonLoader, SyncLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import store from "~/store";
+import { useAuthContext } from "~/hooks/AuthContext";
 
 export default function UploadFile() {
   const [dragActive, setDragActive] = useState(false);
   const [file, setFile] = useState();
   const [key, setKey] = useState();
-
+  const { user } = useAuthContext();
   const [error, setError] = useState("");
 
   const [processing, setProcessing] = useState(false);
@@ -77,19 +78,36 @@ export default function UploadFile() {
     setError(false);
   };
 
+  const resetUpload = () => {
+    deleteFile();
+    setKey();
+    setError();
+  };
+
   const uploadFile = async () => {
     setError(false);
     getSignedURL({
       contentType: "application/pdf",
     })
-      .then(async (signedUrl) => {
-        const renamed = new File([file], signedUrl.key);
-        setKey(signedUrl.key);
+      .then(async (data) => {
+        setKey(data.key);
         setUploading(true);
 
-        await uploadToS3(signedUrl.uploadURL, renamed);
+        const formData = new FormData();
+        formData.append("Content-Type", file.type);
+        formData.append("x-amz-meta-userid", user.id);
+        Object.entries(data.fields).forEach(([k, v]) => {
+          formData.append(k, v);
+        });
+        formData.append("file", file);
+
+        await fetch(data.url, {
+          method: "POST",
+          body: formData,
+        });
+
         await processFile({
-          key: signedUrl.key,
+          key: data.key,
         });
 
         setUploading(false);
@@ -99,6 +117,9 @@ export default function UploadFile() {
         console.log(e);
         if (e.response?.status == 401) {
           setError("شما بسته فعالی ندارید.");
+        } else {
+          setUploading(false);
+          setError("خطا آپلود");
         }
       });
   };
@@ -141,6 +162,7 @@ export default function UploadFile() {
           <span className="drop-title">فایل را اینجا رها کنید</span>
           یا
           <span className="">برای آپلود کلیک کنید</span>
+          <span className="text-gray-400 text-xs">(ماکزیمم ۵ مگابایت)</span>
           <input
             ref={inputRef}
             className="hidden"
@@ -200,6 +222,15 @@ export default function UploadFile() {
         </div>
       ) : (
         ""
+      )}
+
+      {error && (
+        <span
+          className="text-green-600 underline cursor-pointer"
+          onClick={resetUpload}
+        >
+          بازگشت
+        </span>
       )}
 
       {dragActive && (
