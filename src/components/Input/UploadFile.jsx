@@ -33,7 +33,13 @@ export default function UploadFile() {
 
   const handleFile = (file) => {
     if (file && file.length > 0) {
-      setFile(file[0]);
+      if (file[0]?.size > 5 * 1024 * 1024) {
+        setError("سایز فایل بیشتر از ۵MB است");
+      } else if (file[0]?.type != "application/pdf") {
+        setError("تنها فایل PDF قابل قبول است");
+      } else {
+        setFile(file[0]);
+      }
     }
   };
 
